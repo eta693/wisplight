@@ -985,15 +985,15 @@ def humanoid_texture(fill, seed):
 
 def shade_fill(x, y, w, h, part, face):
     r = random.Random(x * 131 + y * 17 + len(part) * 7 + len(face))
-    base = r.choice(["#1a1424", "#1a1424", "#140f1d", "#221a30"])
+    base = r.choice(["#2a2040", "#241b36", "#2f2448", "#1f182e"])
     if part == "head" and face == "front" and y in (3, 4) and x in (1, 2, 5, 6):
         return "#f4f0ff"
-    if part in ("arm", "leg") and face in ("front", "back", "left", "right") and x in (0, w - 1) and r.random() < 0.6:
-        return None  # membres effilés
-    if part in ("arm", "leg") and y >= h - 3 and r.random() < 0.5:
+    if part in ("arm", "leg") and y >= h - 2 and r.random() < 0.45:
         return None  # extrémités qui se dissipent
-    if r.random() < 0.08:
-        return "#3b2a55"
+    if r.random() < 0.15:
+        return r.choice(["#4a3670", "#5d4590"])
+    if part == "body" and face == "front" and 4 <= y <= 7 and 2 <= x <= 5 and r.random() < 0.6:
+        return "#6a4f9a"  # cœur d'ombre
     return base
 
 

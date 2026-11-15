@@ -166,10 +166,13 @@ jobs:
           gamma:1.0
           guiScale:2
           soundCategory_master:0.0
+          lang:fr_fr
           OPTS
           export LIBGL_ALWAYS_SOFTWARE=1
           timeout 1500 xvfb-run -a -s "-screen 0 1280x720x24" ./gradlew runTourClient 2>&1 | tail -150 > tour-report/client.log || true
           cp run-tour-client/screenshots/*.png tour-report/ 2>/dev/null || true
+          cp run-tour-client/logs/latest.log tour-report/client-full.log 2>/dev/null || true
+          grep -E "ERROR|Exception|Visite" run-tour-client/logs/latest.log | grep -v "ALSA\|OpenAL\|SoundSystem" > tour-report/client-errors.log 2>/dev/null || true
           ls -la tour-report
 
       - name: Push tour report

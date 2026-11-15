@@ -44,7 +44,7 @@ public final class TourDirector {
     public static final boolean ENABLED = Boolean.getBoolean("wisplight.tour");
     public static final boolean PREGEN = Boolean.getBoolean("wisplight.tour.pregen");
     public static final String PREFIX = "[tour] ";
-    static final int WARMUP = 60;
+    static final int WARMUP = 200;
     static final int SCENE_TICKS = 220;
 
     private static ServerPlayer player;
@@ -97,7 +97,11 @@ public final class TourDirector {
         }
         tick++;
         player.removeAllEffects();
-        player.getAbilities().flying = true;
+        if (!player.getAbilities().flying) {
+            player.getAbilities().mayfly = true;
+            player.getAbilities().flying = true;
+            player.onUpdateAbilities();
+        }
         if (tick < WARMUP) {
             return;
         }
@@ -114,6 +118,7 @@ public final class TourDirector {
             } else if (local == 40) {
                 try {
                     scene.build().accept(level, origin);
+                    Wisplight.LOGGER.info("Visite : scène {} construite en {}", scene.name(), origin);
                 } catch (Exception e) {
                     Wisplight.LOGGER.error("Visite : la scène {} a échoué", scene.name(), e);
                 }

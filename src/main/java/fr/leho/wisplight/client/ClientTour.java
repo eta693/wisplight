@@ -54,9 +54,16 @@ public final class ClientTour {
         }
         Minecraft mc = Minecraft.getInstance();
         mc.options.hideGui = true;
+        if (mc.player != null && !mc.player.getAbilities().flying) {
+            mc.player.getAbilities().flying = true;
+            mc.player.onUpdateAbilities();
+        }
         if (countdown > 0 && --countdown == 0 && pending != null) {
             Screenshot.grab(mc.gameDirectory, pending + ".png", mc.getMainRenderTarget(),
                     msg -> Wisplight.LOGGER.info("Visite : {}", msg.getString()));
+            if (pending.contains("grimoire")) {
+                stopCountdown = 30; // le livre met le jeu en pause : on termine ici
+            }
             pending = null;
         }
         if (stopCountdown > 0 && --stopCountdown == 0) {
