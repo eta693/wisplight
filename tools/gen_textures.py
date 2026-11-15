@@ -644,8 +644,9 @@ def jar_lid():
     return img
 
 
-def armor_layer(kind):
+def armor_layer(kind, pal=None):
     """Couches d'armure 64x32 (disposition humanoïde vanilla)."""
+    LUMEN = pal or globals()["LUMEN"]
     rnd = random.Random(9 if kind == 1 else 10)
     img = Image.new("RGBA", (64, 32), T)
 
@@ -958,6 +959,96 @@ def phase3_textures():
         out[f"entity/wisp_orb/{r}"] = orb(r)
     return out
 
+
+# ======================================================================
+# Phase 4 : Ombres, Armure du Veilleur
+# ======================================================================
+WATCHER = {"o": "#0b0810", "s": "#241a36", "m": "#3b2a55", "l": "#5d4590", "h": "#ffe27a"}
+
+
+def humanoid_texture(fill, seed):
+    """Texture 64x64 de modèle humanoïde (disposition zombie) : fill(x, y, part, face) -> couleur ou None."""
+    img = Image.new("RGBA", (64, 64), T)
+    parts = {"head": (0, 0, 8, 8, 8), "body": (16, 16, 8, 12, 4), "arm": (40, 16, 4, 12, 4), "leg": (0, 16, 4, 12, 4)}
+    for part, (u, v, w, h, d) in parts.items():
+        rects = {"top": (u + d, v, w, d), "bottom": (u + d + w, v, w, d), "right": (u, v + d, d, h),
+                 "front": (u + d, v + d, w, h), "left": (u + d + w, v + d, d, h), "back": (u + 2 * d + w, v + d, w, h)}
+        for face, (x0, y0, ww, hh) in rects.items():
+            for y in range(hh):
+                for x in range(ww):
+                    c = fill(x, y, ww, hh, part, face)
+                    if c:
+                        img.putpixel((x0 + x, y0 + y), hx(c) if isinstance(c, str) else c)
+    return img
+
+
+def shade_fill(x, y, w, h, part, face):
+    r = random.Random(x * 131 + y * 17 + len(part) * 7 + len(face))
+    base = r.choice(["#1a1424", "#1a1424", "#140f1d", "#221a30"])
+    if part == "head" and face == "front" and y in (3, 4) and x in (1, 2, 5, 6):
+        return "#f4f0ff"
+    if part in ("arm", "leg") and face in ("front", "back", "left", "right") and x in (0, w - 1) and r.random() < 0.6:
+        return None  # membres effilés
+    if part in ("arm", "leg") and y >= h - 3 and r.random() < 0.5:
+        return None  # extrémités qui se dissipent
+    if r.random() < 0.08:
+        return "#3b2a55"
+    return base
+
+
+def shade_eyes_fill(x, y, w, h, part, face):
+    if part == "head" and face == "front" and y in (3, 4) and x in (1, 2, 5, 6):
+        return "#f4f0ff" if y == 3 else "#b9a6e8"
+    return None
+
+
+SHADOW_FRAGMENT = [
+    "................",
+    "................",
+    "..........ho....",
+    ".........hlmo...",
+    "........hlmso...",
+    ".......hlmso....",
+    "...o..hlmso.....",
+    "..olohlmso......",
+    "..ommlmso.......",
+    "...omlmso.......",
+    "...ommsso.......",
+    "....osso........",
+    ".....oo.........",
+    "................",
+    "................",
+    "................",
+]
+SHADOW_PAL = {"o": "#0b0810", "s": "#1a1424", "m": "#3b2a55", "l": "#6a4f9a", "h": "#b9a6e8"}
+
+
+def reinforced_jar():
+    img = grid(JAR, {"c": "#2b2d33", "C": "#44474f", "g": "#cfe3ea", "W": "#ffffff"})
+    for y in (5, 12):
+        for x in range(3, 13):
+            if img.getpixel((x, y))[3]:
+                img.putpixel((x, y), hx("#3b2a55"))
+    for x in range(4, 12):
+        img.putpixel((x, 5), hx("#3b2a55"))
+        img.putpixel((x, 12), hx("#3b2a55"))
+    return img
+
+
+def phase4_textures():
+    return {
+        "entity/creeping_shade": humanoid_texture(shade_fill, 1),
+        "entity/creeping_shade_eyes": humanoid_texture(shade_eyes_fill, 2),
+        "item/shadow_fragment": grid(SHADOW_FRAGMENT, SHADOW_PAL),
+        "item/reinforced_jar": reinforced_jar(),
+        "item/watcher_helmet": grid(HELMET, WATCHER),
+        "item/watcher_chestplate": grid(CHESTPLATE, WATCHER),
+        "item/watcher_leggings": grid(LEGGINGS, WATCHER),
+        "item/watcher_boots": grid(BOOTS, WATCHER),
+        "models/armor/watcher_layer_1": armor_layer(1, WATCHER),
+        "models/armor/watcher_layer_2": armor_layer(2, WATCHER),
+    }
+
 # ======================================================================
 # Écriture
 # ======================================================================
@@ -990,6 +1081,7 @@ if __name__ == "__main__":
         out[f"item/wisp_jar_{r}"] = jar(r)
         out[f"item/essence_{r}"] = vial(r)
     out.update(phase3_textures())
+    out.update(phase4_textures())
     import shutil
     if os.path.isdir(ROOT):
         shutil.rmtree(ROOT)
@@ -998,7 +1090,7 @@ if __name__ == "__main__":
         os.makedirs(os.path.dirname(path), exist_ok=True)
         img.save(path)
     # planche contact (hors resources) pour validation visuelle
-    sheet_items = [k for k in out if not k.startswith("models/") and not k.startswith("gui/")]
+    sheet_items = [k for k in out if not k.startswith("models/") and not k.startswith("gui/") and not k.startswith("entity/creeping")]
     S = 64
     sheet = Image.new("RGBA", (S * 8 + 16, S * ((len(sheet_items) + 7) // 8) + 16), hx("#20242e"))
     for i, n in enumerate(sheet_items):
@@ -1007,5 +1099,6 @@ if __name__ == "__main__":
     sheet.save("build/contact_sheet.png")
     for k in ("models/armor/lumen_layer_1", "models/armor/lumen_layer_2"):
         out[k].resize((256, 128), Image.NEAREST).save("build/" + k.split("/")[-1] + "_preview.png")
+    out["entity/creeping_shade"].resize((256, 256), Image.NEAREST).save("build/shade_preview.png")
     out["gui/infusion_altar"].crop((0, 0, 230, 166)).resize((690, 498), Image.NEAREST).save("build/gui_preview.png")
     print(len(out), "textures écrites")

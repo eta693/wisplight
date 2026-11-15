@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "wisplight:lumen_helmet"
+    "wisplight:lumen_helmet",
+    "wisplight:watcher_helmet"
   ]
 }

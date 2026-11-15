@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "wisplight:empty_jar"
+    },
+    {
+      "item": "wisplight:shadow_fragment"
+    },
+    {
+      "item": "wisplight:shadow_fragment"
+    },
+    {
+      "item": "wisplight:lumen_ingot"
+    }
+  ],
+  "result": {
+    "id": "wisplight:reinforced_jar",
+    "count": 1
+  }
+}

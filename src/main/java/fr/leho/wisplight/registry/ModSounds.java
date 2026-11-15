@@ -22,6 +22,11 @@ public final class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> STAFF_SHOOT = register("item.wisp_staff.shoot");
     public static final DeferredHolder<SoundEvent, SoundEvent> ORB_IMPACT = register("entity.wisp_orb.impact");
 
+    public static final DeferredHolder<SoundEvent, SoundEvent> SHADE_AMBIENT = register("entity.creeping_shade.ambient");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SHADE_HURT = register("entity.creeping_shade.hurt");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SHADE_DEATH = register("entity.creeping_shade.death");
+    public static final DeferredHolder<SoundEvent, SoundEvent> SHADE_STEAL = register("entity.creeping_shade.steal");
+
     private static DeferredHolder<SoundEvent, SoundEvent> register(String name) {
         return SOUNDS.register(name, () -> SoundEvent.createVariableRangeEvent(Wisplight.id(name)));
     }

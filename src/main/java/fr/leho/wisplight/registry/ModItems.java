@@ -101,6 +101,18 @@ public final class ModItems {
     public static final DeferredItem<WispStaffItem> WISP_STAFF = ITEMS.register("wisp_staff",
             () -> new WispStaffItem(new Item.Properties().durability(250).rarity(Rarity.UNCOMMON)));
 
+    // --- Ombres ---
+    public static final DeferredItem<Item> SHADOW_FRAGMENT = ITEMS.register("shadow_fragment",
+            () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final DeferredItem<Item> REINFORCED_JAR = ITEMS.register("reinforced_jar",
+            () -> new Item(new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON)));
+    public static final DeferredItem<ArmorItem> WATCHER_HELMET = watcher("watcher_helmet", ArmorItem.Type.HELMET);
+    public static final DeferredItem<ArmorItem> WATCHER_CHESTPLATE = watcher("watcher_chestplate", ArmorItem.Type.CHESTPLATE);
+    public static final DeferredItem<ArmorItem> WATCHER_LEGGINGS = watcher("watcher_leggings", ArmorItem.Type.LEGGINGS);
+    public static final DeferredItem<ArmorItem> WATCHER_BOOTS = watcher("watcher_boots", ArmorItem.Type.BOOTS);
+    public static final DeferredItem<DeferredSpawnEggItem> CREEPING_SHADE_SPAWN_EGG = ITEMS.register("creeping_shade_spawn_egg",
+            () -> new DeferredSpawnEggItem(ModEntities.CREEPING_SHADE, 0x1A1424, 0xF4F0FF, new Item.Properties()));
+
     // --- Divers ---
     public static final DeferredItem<DeferredSpawnEggItem> WISP_SPAWN_EGG = ITEMS.register("wisp_spawn_egg",
             () -> new DeferredSpawnEggItem(ModEntities.WISP, 0x1D4E89, 0xBDF3FF, new Item.Properties()));
@@ -116,6 +128,11 @@ public final class ModItems {
     private static DeferredItem<ArmorItem> armor(String name, ArmorItem.Type type) {
         return ITEMS.register(name, () -> new ArmorItem(ModArmorMaterials.LUMEN, type,
                 new Item.Properties().durability(type.getDurability(22))));
+    }
+
+    private static DeferredItem<ArmorItem> watcher(String name, ArmorItem.Type type) {
+        return ITEMS.register(name, () -> new ArmorItem(ModArmorMaterials.WATCHER, type,
+                new Item.Properties().durability(type.getDurability(30)).rarity(Rarity.RARE)));
     }
 
     private ModItems() {}

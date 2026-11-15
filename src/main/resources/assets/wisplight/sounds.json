@@ -66,5 +66,30 @@
     "sounds": [
       "wisplight:staff/impact"
     ]
+  },
+  "entity.creeping_shade.ambient": {
+    "subtitle": "subtitles.wisplight.entity.creeping_shade.ambient",
+    "sounds": [
+      "wisplight:shade/ambient1",
+      "wisplight:shade/ambient2"
+    ]
+  },
+  "entity.creeping_shade.hurt": {
+    "subtitle": "subtitles.wisplight.entity.creeping_shade.hurt",
+    "sounds": [
+      "wisplight:shade/hurt"
+    ]
+  },
+  "entity.creeping_shade.death": {
+    "subtitle": "subtitles.wisplight.entity.creeping_shade.death",
+    "sounds": [
+      "wisplight:shade/death"
+    ]
+  },
+  "entity.creeping_shade.steal": {
+    "subtitle": "subtitles.wisplight.entity.creeping_shade.steal",
+    "sounds": [
+      "wisplight:shade/steal"
+    ]
   }
 }

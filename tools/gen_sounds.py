@@ -151,6 +151,37 @@ def orb_impact():
     return normalize(buf, 0.7)
 
 
+def shade_ambient(seed):
+    r = np.random.default_rng(seed)
+    x = t(1.4)
+    breath = lowpass(r.standard_normal(len(x)), 0.05) * np.sin(np.pi * np.clip(x / 1.4, 0, 1)) ** 2
+    drone = 0.3 * np.sin(2 * np.pi * (70 + 8 * np.sin(2 * np.pi * 0.7 * x)) * x)
+    return normalize(breath + drone * np.sin(np.pi * x / 1.4), 0.5)
+
+
+def shade_hurt():
+    x = t(0.35)
+    hiss = (rng.standard_normal(len(x)) - lowpass(rng.standard_normal(len(x)), 0.1)) * env(len(x), 0.005, 0.12)
+    growl = np.sin(2 * np.pi * np.cumsum(np.linspace(160, 90, len(x))) / SR) * env(len(x), 0.005, 0.15)
+    return normalize(hiss * 0.5 + growl * 0.6, 0.7)
+
+
+def shade_death():
+    x = t(1.3)
+    whoosh = lowpass(rng.standard_normal(len(x)), np.linspace(0.3, 0.02, len(x)).mean()) * np.exp(-x / 0.5)
+    tone = np.sin(2 * np.pi * np.cumsum(np.linspace(220, 55, len(x))) / SR) * np.exp(-x / 0.6)
+    return normalize(whoosh * 0.6 + tone * 0.6, 0.7)
+
+
+def shade_steal():
+    buf = np.zeros(int(SR * 0.9))
+    for i, fr in enumerate([2093, 1568, 1319, 1047]):
+        place(buf, bell(fr, 0.5, decay=0.2) * (0.8 - 0.1 * i), 0.08 * i)
+    x = t(0.9)
+    buf *= np.linspace(1.0, 0.3, len(x))
+    return normalize(buf, 0.6)
+
+
 def write_ogg(name, sig):
     path = os.path.join(OUT, name + ".ogg")
     os.makedirs(os.path.dirname(path), exist_ok=True)
@@ -181,6 +212,11 @@ if __name__ == "__main__":
         "altar/done": altar_done(),
         "staff/shoot": staff_shoot(),
         "staff/impact": orb_impact(),
+        "shade/ambient1": shade_ambient(1),
+        "shade/ambient2": shade_ambient(2),
+        "shade/hurt": shade_hurt(),
+        "shade/death": shade_death(),
+        "shade/steal": shade_steal(),
     }
     for n, s in sounds.items():
         write_ogg(n, s)

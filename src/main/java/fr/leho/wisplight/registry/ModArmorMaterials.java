@@ -32,5 +32,21 @@ public final class ModArmorMaterials {
                     1.0F,
                     0.0F));
 
+    public static final DeferredHolder<ArmorMaterial, ArmorMaterial> WATCHER = ARMOR_MATERIALS.register("watcher",
+            () -> new ArmorMaterial(
+                    Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
+                        map.put(ArmorItem.Type.BOOTS, 3);
+                        map.put(ArmorItem.Type.LEGGINGS, 6);
+                        map.put(ArmorItem.Type.CHESTPLATE, 8);
+                        map.put(ArmorItem.Type.HELMET, 3);
+                        map.put(ArmorItem.Type.BODY, 8);
+                    }),
+                    15,
+                    SoundEvents.ARMOR_EQUIP_NETHERITE,
+                    () -> Ingredient.of(ModItems.SHADOW_FRAGMENT.get()),
+                    List.of(new ArmorMaterial.Layer(Wisplight.id("watcher"))),
+                    2.0F,
+                    0.05F));
+
     private ModArmorMaterials() {}
 }

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": {
+    "item": "wisplight:shadow_fragment"
+  },
+  "base": {
+    "item": "wisplight:lumen_chestplate"
+  },
+  "addition": {
+    "item": "wisplight:shadow_fragment"
+  },
+  "result": {
+    "id": "wisplight:watcher_chestplate",
+    "count": 1
+  }
+}

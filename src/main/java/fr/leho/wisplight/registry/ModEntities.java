@@ -1,6 +1,7 @@
 package fr.leho.wisplight.registry;
 
 import fr.leho.wisplight.Wisplight;
+import fr.leho.wisplight.entity.CreepingShadeEntity;
 import fr.leho.wisplight.entity.WispEntity;
 import fr.leho.wisplight.entity.WispOrbEntity;
 import net.minecraft.core.registries.Registries;
@@ -25,6 +26,13 @@ public final class ModEntities {
                     .clientTrackingRange(6)
                     .updateInterval(10)
                     .build("wisp_orb"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<CreepingShadeEntity>> CREEPING_SHADE =
+            ENTITIES.register("creeping_shade", () -> EntityType.Builder.<CreepingShadeEntity>of(CreepingShadeEntity::new, MobCategory.MONSTER)
+                    .sized(0.6F, 2.1F)
+                    .eyeHeight(1.85F)
+                    .clientTrackingRange(8)
+                    .build("creeping_shade"));
 
     private ModEntities() {}
 }

@@ -313,6 +313,34 @@ def lang():
         "subtitles.wisplight.item.wisp_staff.shoot": "Staff casts an orb",
         "subtitles.wisplight.entity.wisp_orb.impact": "Orb bursts",
     })
+    fr.update({
+        "entity.wisplight.creeping_shade": "Ombre rampante",
+        "item.wisplight.creeping_shade_spawn_egg": "Œuf d'apparition d'Ombre rampante",
+        "item.wisplight.shadow_fragment": "Fragment d'ombre",
+        "item.wisplight.reinforced_jar": "Bocal renforcé",
+        "item.wisplight.watcher_helmet": "Heaume du Veilleur",
+        "item.wisplight.watcher_chestplate": "Cuirasse du Veilleur",
+        "item.wisplight.watcher_leggings": "Jambières du Veilleur",
+        "item.wisplight.watcher_boots": "Bottes du Veilleur",
+        "subtitles.wisplight.entity.creeping_shade.ambient": "Une Ombre murmure",
+        "subtitles.wisplight.entity.creeping_shade.hurt": "Une Ombre siffle",
+        "subtitles.wisplight.entity.creeping_shade.death": "Une Ombre se dissipe",
+        "subtitles.wisplight.entity.creeping_shade.steal": "Une Ombre vole une essence",
+    })
+    en.update({
+        "entity.wisplight.creeping_shade": "Creeping Shade",
+        "item.wisplight.creeping_shade_spawn_egg": "Creeping Shade Spawn Egg",
+        "item.wisplight.shadow_fragment": "Shadow Fragment",
+        "item.wisplight.reinforced_jar": "Reinforced Jar",
+        "item.wisplight.watcher_helmet": "Watcher Helm",
+        "item.wisplight.watcher_chestplate": "Watcher Cuirass",
+        "item.wisplight.watcher_leggings": "Watcher Leggings",
+        "item.wisplight.watcher_boots": "Watcher Boots",
+        "subtitles.wisplight.entity.creeping_shade.ambient": "Shade whispers",
+        "subtitles.wisplight.entity.creeping_shade.hurt": "Shade hisses",
+        "subtitles.wisplight.entity.creeping_shade.death": "Shade dissipates",
+        "subtitles.wisplight.entity.creeping_shade.steal": "Shade steals an essence",
+    })
     for v in VARIANTS:
         fr[f"block.wisplight.lumen_lantern_{v}"] = f"Lanterne de lumen {VARIANT_FR[v].lower()}"
         en[f"block.wisplight.lumen_lantern_{v}"] = f"{VARIANT_EN[v]} Lumen Lantern"
@@ -340,6 +368,10 @@ SOUNDS = {
     "block.infusion_altar.done": ["altar/done"],
     "item.wisp_staff.shoot": ["staff/shoot"],
     "entity.wisp_orb.impact": ["staff/impact"],
+    "entity.creeping_shade.ambient": ["shade/ambient1", "shade/ambient2"],
+    "entity.creeping_shade.hurt": ["shade/hurt"],
+    "entity.creeping_shade.death": ["shade/death"],
+    "entity.creeping_shade.steal": ["shade/steal"],
 }
 
 
@@ -514,7 +546,44 @@ def phase3():
     tag(MOD, "item", "essences", [rid(f"essence_{v}") for v in VARIANTS])
     tag(MOD, "item", "infusable", [rid("lumen_" + t) for t in ("sword", "pickaxe", "axe", "shovel", "hoe",
                                                                "helmet", "chestplate", "leggings", "boots")]
+        + [rid("watcher_" + t) for t in ("helmet", "chestplate", "leggings", "boots")]
         + [rid("wisp_staff")])
+
+
+# ---------------------------------------------------------------- phase 4
+def phase4():
+    for it in ("shadow_fragment", "reinforced_jar", "watcher_helmet", "watcher_chestplate",
+               "watcher_leggings", "watcher_boots"):
+        item_generated(it)
+    w(a("models", "item", "creeping_shade_spawn_egg.json"), {"parent": "minecraft:item/template_spawn_egg"})
+    w(d(MOD, "loot_table", "entities", "creeping_shade.json"), {
+        "type": "minecraft:entity",
+        "pools": [{"rolls": 1, "bonus_rolls": 0,
+                   "entries": [{"type": "minecraft:item", "name": rid("shadow_fragment"),
+                                "functions": [
+                                    {"function": "minecraft:set_count",
+                                     "count": {"type": "minecraft:uniform", "min": 0, "max": 1}},
+                                    {"function": "minecraft:enchanted_count_increase",
+                                     "enchantment": "minecraft:looting",
+                                     "count": {"type": "minecraft:uniform", "min": 0, "max": 1}}]}],
+                   "conditions": [{"condition": "minecraft:killed_by_player"}]}],
+        "random_sequence": rid("entities/creeping_shade"),
+    })
+    w(d(MOD, "neoforge", "biome_modifier", "add_creeping_shade.json"), {
+        "type": "neoforge:add_spawns",
+        "biomes": "#minecraft:is_overworld",
+        "spawners": {"type": rid("creeping_shade"), "weight": 6, "minCount": 1, "maxCount": 2},
+    })
+    for piece in ("helmet", "chestplate", "leggings", "boots"):
+        w(d(MOD, "recipe", f"watcher_{piece}.json"), {
+            "type": "minecraft:smithing_transform",
+            "template": ing(rid("shadow_fragment")),
+            "base": ing(rid(f"lumen_{piece}")),
+            "addition": ing(rid("shadow_fragment")),
+            "result": {"id": rid(f"watcher_{piece}"), "count": 1},
+        })
+    shapeless("reinforced_jar", [rid("empty_jar"), rid("shadow_fragment"), rid("shadow_fragment"), rid("lumen_ingot")],
+              rid("reinforced_jar"))
 
 
 # ---------------------------------------------------------------- tout
@@ -589,18 +658,17 @@ def main():
     tag("minecraft", "item", "axes", [rid("lumen_axe")])
     tag("minecraft", "item", "shovels", [rid("lumen_shovel")])
     tag("minecraft", "item", "hoes", [rid("lumen_hoe")])
-    tag("minecraft", "item", "head_armor", [rid("lumen_helmet")])
-    tag("minecraft", "item", "chest_armor", [rid("lumen_chestplate")])
-    tag("minecraft", "item", "leg_armor", [rid("lumen_leggings")])
-    tag("minecraft", "item", "foot_armor", [rid("lumen_boots")])
+    for slot, piece in (("head", "helmet"), ("chest", "chestplate"), ("leg", "leggings"), ("foot", "boots")):
+        tag("minecraft", "item", f"{slot}_armor", [rid(f"lumen_{piece}"), rid(f"watcher_{piece}")])
     tag("minecraft", "item", "trimmable_armor",
-        [rid("lumen_helmet"), rid("lumen_chestplate"), rid("lumen_leggings"), rid("lumen_boots")])
+        [rid(f"{m}_{p}") for m in ("lumen", "watcher") for p in ("helmet", "chestplate", "leggings", "boots")])
     tag("c", "block", "ores", ores)
     tag("c", "item", "ores", ores)
     tag("c", "item", "ingots", [rid("lumen_ingot")])
     tag("c", "block", "storage_blocks", [rid("lumen_block")])
 
     phase3()
+    phase4()
     worldgen()
     sounds()
     lang()

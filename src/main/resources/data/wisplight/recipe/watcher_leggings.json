@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": {
+    "item": "wisplight:shadow_fragment"
+  },
+  "base": {
+    "item": "wisplight:lumen_leggings"
+  },
+  "addition": {
+    "item": "wisplight:shadow_fragment"
+  },
+  "result": {
+    "id": "wisplight:watcher_leggings",
+    "count": 1
+  }
+}

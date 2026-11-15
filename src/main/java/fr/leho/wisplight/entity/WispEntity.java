@@ -224,7 +224,7 @@ public class WispEntity extends Mob {
 
     /** Un joueur qui sprinte ou tient une arme fait fuir le follet (sauf s'il est accroupi). */
     public static boolean scares(Player player) {
-        if (player.isShiftKeyDown()) {
+        if (player.isShiftKeyDown() || fr.leho.wisplight.item.WatcherArmor.hasFullSet(player)) {
             return false;
         }
         return player.isSprinting() || isWeapon(player.getMainHandItem());
@@ -256,10 +256,11 @@ public class WispEntity extends Mob {
     @Override
     protected InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
-        if (!stack.is(ModItems.EMPTY_JAR.get())) {
+        boolean reinforced = stack.is(ModItems.REINFORCED_JAR.get());
+        if (!stack.is(ModItems.EMPTY_JAR.get()) && !reinforced) {
             return super.mobInteract(player, hand);
         }
-        if (!player.isShiftKeyDown()) {
+        if (!player.isShiftKeyDown() && !reinforced) {
             if (!level().isClientSide) {
                 player.displayClientMessage(Component.translatable("message.wisplight.wisp_restless"), true);
             }

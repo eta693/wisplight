@@ -49,7 +49,7 @@ for b in glob.glob(os.path.join(A, "blockstates", "*.json")):
 # Noms enregistrés dans le code Java
 java_src = "\n".join(open(f, encoding="utf-8").read() for f in glob.glob(os.path.join(JAVA, "**", "*.java"), recursive=True))
 items = set(re.findall(r'ITEMS\.register\("([a-z0-9_]+)"', java_src))
-items |= set(re.findall(r'(?:simple|block|armor)\("([a-z0-9_]+)"', java_src))
+items |= set(re.findall(r'(?:simple|block|armor|watcher)\("([a-z0-9_]+)"', java_src))
 VARS = ("azur", "emeraude", "braise", "givre")
 items_src = open(os.path.join(JAVA, "fr", "leho", "wisplight", "registry", "ModItems.java"), encoding="utf-8").read()
 blocks_src = open(os.path.join(JAVA, "fr", "leho", "wisplight", "registry", "ModBlocks.java"), encoding="utf-8").read()

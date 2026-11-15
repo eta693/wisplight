@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "wisplight:lumen_chestplate"
+    "wisplight:lumen_chestplate",
+    "wisplight:watcher_chestplate"
   ]
 }

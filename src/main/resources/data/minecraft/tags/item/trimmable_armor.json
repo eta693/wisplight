@@ -4,6 +4,10 @@
     "wisplight:lumen_helmet",
     "wisplight:lumen_chestplate",
     "wisplight:lumen_leggings",
-    "wisplight:lumen_boots"
+    "wisplight:lumen_boots",
+    "wisplight:watcher_helmet",
+    "wisplight:watcher_chestplate",
+    "wisplight:watcher_leggings",
+    "wisplight:watcher_boots"
   ]
 }

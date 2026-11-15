@@ -10,7 +10,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 
-@EventBusSubscriber(modid = Wisplight.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = Wisplight.MOD_ID, value = Dist.CLIENT)
 public final class ClientSetup {
     private ClientSetup() {}
 
@@ -18,6 +18,7 @@ public final class ClientSetup {
     public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ModEntities.WISP.get(), WispRenderer::new);
         event.registerEntityRenderer(ModEntities.WISP_ORB.get(), WispOrbRenderer::new);
+        event.registerEntityRenderer(ModEntities.CREEPING_SHADE.get(), CreepingShadeRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.WISP_JAR.get(), WispJarRenderer::new);
     }
 
