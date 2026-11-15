@@ -50,11 +50,15 @@ for b in glob.glob(os.path.join(A, "blockstates", "*.json")):
 java_src = "\n".join(open(f, encoding="utf-8").read() for f in glob.glob(os.path.join(JAVA, "**", "*.java"), recursive=True))
 items = set(re.findall(r'ITEMS\.register\("([a-z0-9_]+)"', java_src))
 items |= set(re.findall(r'(?:simple|block|armor)\("([a-z0-9_]+)"', java_src))
-for prefix in ("essence_", "wisp_jar_"):
-    if prefix in java_src:
-        items |= {prefix + v for v in ("azur", "emeraude", "braise", "givre")}
+VARS = ("azur", "emeraude", "braise", "givre")
+items_src = open(os.path.join(JAVA, "fr", "leho", "wisplight", "registry", "ModItems.java"), encoding="utf-8").read()
+blocks_src = open(os.path.join(JAVA, "fr", "leho", "wisplight", "registry", "ModBlocks.java"), encoding="utf-8").read()
+for prefix in re.findall(r'"([a-z_]+_)" \+ variant\.id\(\)', items_src):
+    items |= {prefix + v for v in VARS}
 items = {i for i in items if not i.endswith("_")}
-blocks = {b for b in re.findall(r'(?<![A-Z_])BLOCKS\.register\("([a-z0-9_]+)"', java_src) if not b.endswith("_")} | {"wisp_jar_" + v for v in ("azur", "emeraude", "braise", "givre")}
+blocks = {b for b in re.findall(r'(?<![A-Z_])BLOCKS\.register\("([a-z0-9_]+)"', java_src) if not b.endswith("_")}
+for prefix in re.findall(r'"([a-z_]+_)" \+ variant\.id\(\)', blocks_src):
+    blocks |= {prefix + v for v in VARS}
 entities = set(re.findall(r'(?<![A-Z_])ENTITIES\.register\("([a-z0-9_]+)"', java_src))
 
 langs = {l: load(os.path.join(A, "lang", l + ".json")) for l in ("fr_fr", "en_us")}

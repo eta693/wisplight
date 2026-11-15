@@ -55,6 +55,9 @@ public class WispEntity extends Mob {
     @Nullable
     private Vec3 target;
     private boolean fleeing;
+    @Nullable
+    private BlockPos attractor;
+    private int attractTicks;
 
     public WispEntity(EntityType<? extends WispEntity> type, Level level) {
         super(type, level);
@@ -147,8 +150,16 @@ public class WispEntity extends Mob {
             fleeing = true;
         } else if (player != null && player.isShiftKeyDown() && player.distanceToSqr(this) < 49.0) {
             target = player.getEyePosition().add(player.getLookAngle().scale(1.6));
+        } else if (attractor != null && attractTicks > 0) {
+            if (target == null || random.nextInt(40) == 0 || target.distanceToSqr(pos) < 0.8) {
+                double angle = random.nextDouble() * Math.PI * 2;
+                target = Vec3.atCenterOf(attractor).add(Math.cos(angle) * 2.2, 0.8 + random.nextDouble(), Math.sin(angle) * 2.2);
+            }
         } else if (target == null || random.nextInt(80) == 0 || target.distanceToSqr(pos) < 0.8) {
             target = pickWanderTarget();
+        }
+        if (attractTicks > 0 && --attractTicks == 0) {
+            attractor = null;
         }
 
         Vec3 diff = target.subtract(pos);
@@ -174,6 +185,20 @@ public class WispEntity extends Mob {
                 && level.canSeeSky(blockPosition()) && random.nextInt(200) == 0) {
             dissipate();
         }
+    }
+
+    /** Attire le follet vers une lanterne d'appel pendant un certain nombre de ticks. */
+    public void attractTo(BlockPos pos, int ticks) {
+        if (attractor == null || !attractor.equals(pos)) {
+            target = null;
+        }
+        attractor = pos.immutable();
+        attractTicks = Math.max(attractTicks, ticks);
+    }
+
+    @Nullable
+    public BlockPos getAttractor() {
+        return attractTicks > 0 ? attractor : null;
     }
 
     private Vec3 pickWanderTarget() {

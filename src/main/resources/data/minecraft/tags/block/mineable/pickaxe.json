@@ -3,6 +3,12 @@
   "values": [
     "wisplight:lumen_ore",
     "wisplight:deepslate_lumen_ore",
-    "wisplight:lumen_block"
+    "wisplight:lumen_block",
+    "wisplight:infusion_altar",
+    "wisplight:calling_lantern",
+    "wisplight:lumen_lantern_azur",
+    "wisplight:lumen_lantern_emeraude",
+    "wisplight:lumen_lantern_braise",
+    "wisplight:lumen_lantern_givre"
   ]
 }

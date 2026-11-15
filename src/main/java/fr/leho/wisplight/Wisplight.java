@@ -4,6 +4,9 @@ import com.mojang.logging.LogUtils;
 import fr.leho.wisplight.registry.ModArmorMaterials;
 import fr.leho.wisplight.registry.ModBlockEntities;
 import fr.leho.wisplight.registry.ModBlocks;
+import fr.leho.wisplight.registry.ModComponents;
+import fr.leho.wisplight.registry.ModMenus;
+import fr.leho.wisplight.registry.ModRecipes;
 import fr.leho.wisplight.registry.ModEntities;
 import fr.leho.wisplight.registry.ModItems;
 import fr.leho.wisplight.registry.ModSounds;
@@ -28,6 +31,10 @@ public final class Wisplight {
         ModBlockEntities.BLOCK_ENTITIES.register(modBus);
         ModSounds.SOUNDS.register(modBus);
         ModTabs.TABS.register(modBus);
+        ModComponents.COMPONENTS.register(modBus);
+        ModRecipes.TYPES.register(modBus);
+        ModRecipes.SERIALIZERS.register(modBus);
+        ModMenus.MENUS.register(modBus);
         container.registerConfig(ModConfig.Type.COMMON, WisplightConfig.SPEC);
         LOGGER.info("Wisplight : les follets s'éveillent.");
     }

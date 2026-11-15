@@ -1,0 +1,13 @@
+{
+  "type": "wisplight:infusion",
+  "ingredient": {
+    "tag": "wisplight:infusable"
+  },
+  "essence_a": {
+    "item": "wisplight:essence_emeraude"
+  },
+  "essence_b": {
+    "item": "wisplight:essence_emeraude"
+  },
+  "infuse": "emeraude"
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "wisplight:block/template_lumen_lantern_hanging",
+  "textures": {
+    "lantern": "wisplight:block/lumen_lantern_braise"
+  }
+}

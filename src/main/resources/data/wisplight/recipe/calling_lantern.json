@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "decorations",
+  "ingredients": [
+    {
+      "item": "minecraft:lantern"
+    },
+    {
+      "item": "wisplight:wisp_dust"
+    },
+    {
+      "item": "wisplight:wisp_dust"
+    },
+    {
+      "item": "wisplight:lumen_shard"
+    }
+  ],
+  "result": {
+    "id": "wisplight:calling_lantern",
+    "count": 1
+  }
+}

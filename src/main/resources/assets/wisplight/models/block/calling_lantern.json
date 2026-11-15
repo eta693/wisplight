@@ -1,0 +1,6 @@
+{
+  "parent": "wisplight:block/template_lumen_lantern",
+  "textures": {
+    "lantern": "wisplight:block/calling_lantern"
+  }
+}

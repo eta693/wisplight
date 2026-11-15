@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " L ",
+    "DJD",
+    "DDD"
+  ],
+  "key": {
+    "L": {
+      "item": "wisplight:lumen_ingot"
+    },
+    "J": {
+      "item": "wisplight:empty_jar"
+    },
+    "D": {
+      "item": "minecraft:polished_deepslate"
+    }
+  },
+  "result": {
+    "id": "wisplight:infusion_altar",
+    "count": 1
+  }
+}

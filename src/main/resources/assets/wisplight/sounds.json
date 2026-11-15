@@ -42,5 +42,29 @@
     "sounds": [
       "wisplight:jar/harvest"
     ]
+  },
+  "block.infusion_altar.working": {
+    "subtitle": "subtitles.wisplight.block.infusion_altar.working",
+    "sounds": [
+      "wisplight:altar/working"
+    ]
+  },
+  "block.infusion_altar.done": {
+    "subtitle": "subtitles.wisplight.block.infusion_altar.done",
+    "sounds": [
+      "wisplight:altar/done"
+    ]
+  },
+  "item.wisp_staff.shoot": {
+    "subtitle": "subtitles.wisplight.item.wisp_staff.shoot",
+    "sounds": [
+      "wisplight:staff/shoot"
+    ]
+  },
+  "entity.wisp_orb.impact": {
+    "subtitle": "subtitles.wisplight.entity.wisp_orb.impact",
+    "sounds": [
+      "wisplight:staff/impact"
+    ]
   }
 }

@@ -724,6 +724,240 @@ AXE_HEAD = span({1: (6, 9), 2: (4, 10), 3: (3, 10), 4: (3, 9), 5: (3, 8), 6: (4,
 SHOVEL_HEAD = {(x, y) for y in range(0, 8) for x in range(8, 16) if (x - 11.5) ** 2 + (y - 3.0) ** 2 <= 7.5}
 HOE_HEAD = span({1: (5, 11), 2: (5, 12), 3: (11, 12)})
 
+
+# ======================================================================
+# Phase 3 : autel, lanternes, bâton, orbes, interface
+# ======================================================================
+RAMPS["lumen"] = ["#5a3d14", "#a8742a", "#e8b84a", "#ffe27a", "#fff6c8", "#ffffff"]
+
+
+def orb(ramp):
+    pal = [hx(c) for c in RAMPS[ramp]]
+    img = Image.new("RGBA", (16, 16), T)
+    for y in range(16):
+        for x in range(16):
+            d = math.hypot(x + 0.5 - 8, y + 0.5 - 8)
+            if d > 6.2:
+                continue
+            v = 1 - d / 6.2
+            i = 5 if v > .7 else 4 if v > .5 else 3 if v > .3 else 2 if v > .12 else 1
+            img.putpixel((x, y), pal[i])
+    for p in [(5, 5), (6, 5), (5, 6)]:
+        img.putpixel(p, pal[5])
+    return img
+
+
+def altar_top():
+    rnd = random.Random(31)
+    img = Image.new("RGBA", (16, 16))
+    for y in range(16):
+        for x in range(16):
+            c = rnd.choice(["#3a3e4a", "#363a45", "#40444f"])
+            d = math.hypot(x + 0.5 - 8, y + 0.5 - 8)
+            if x in (0, 15) or y in (0, 15):
+                c = "#2a2d36"
+            elif 5.2 < d < 6.3:
+                c = LUMEN["m"] if (x + y) % 3 else LUMEN["l"]
+            elif d < 2.2:
+                c = LUMEN["h"] if d < 1.0 else LUMEN["l"]
+            elif x in (1, 14) or y in (1, 14):
+                c = "#4a4f5c"
+            img.putpixel((x, y), hx(c))
+    for (x, y) in [(8, 3), (8, 12), (3, 8), (12, 8)]:
+        img.putpixel((x, y), hx(LUMEN["h"]))
+    return img
+
+
+def altar_side():
+    rnd = random.Random(32)
+    img = Image.new("RGBA", (16, 16))
+    for y in range(16):
+        for x in range(16):
+            if y == 0:
+                c = LUMEN["l"]
+            elif y == 1:
+                c = LUMEN["m"]
+            elif y == 2:
+                c = LUMEN["s"]
+            elif y < 6:
+                c = "#2a2d36"
+            else:
+                c = rnd.choice(["#3a3e4a", "#363a45", "#40444f"])
+                if x in (3, 12):
+                    c = "#2a2d36"
+                if y == 6 or y == 15:
+                    c = "#2a2d36"
+                if x in (7, 8) and 8 <= y <= 13:
+                    c = LUMEN["s"] if y % 2 else LUMEN["m"]
+            img.putpixel((x, y), hx(c))
+    return img
+
+
+def altar_bottom():
+    rnd = random.Random(33)
+    img = Image.new("RGBA", (16, 16))
+    for y in range(16):
+        for x in range(16):
+            img.putpixel((x, y), hx(rnd.choice(["#2a2d36", "#30333d", "#363a45"])))
+    return img
+
+
+def lantern_block_texture(ramp, metal):
+    """Disposition propre à nos modèles de lanterne (voir gen_assets.lantern_models)."""
+    r = RAMPS[ramp]
+    m_dark, m_mid, m_light = metal
+    img = Image.new("RGBA", (16, 16), T)
+    # corps : (0,0)-(6,7)
+    for y in range(7):
+        for x in range(6):
+            if x in (0, 5) or y in (0, 6):
+                c = m_mid if (x + y) % 2 else m_dark
+            else:
+                d = math.hypot(x - 2.5, y - 3)
+                c = r[5] if d < 1.0 else r[4] if d < 1.8 else r[3]
+            img.putpixel((x, y), hx(c))
+    # dessus/dessous du corps : (0,7)-(6,13)
+    for y in range(7, 13):
+        for x in range(6):
+            c = m_dark if x in (0, 5) or y in (7, 12) else (r[3] if 2 <= x <= 3 and 9 <= y <= 10 else m_mid)
+            img.putpixel((x, y), hx(c))
+    # côtés du chapeau : (6,0)-(10,2)
+    for y in range(0, 2):
+        for x in range(6, 10):
+            img.putpixel((x, y), hx(m_light if y == 0 else m_mid))
+    # dessus du chapeau : (6,2)-(10,6)
+    for y in range(2, 6):
+        for x in range(6, 10):
+            img.putpixel((x, y), hx(m_dark if x in (6, 9) or y in (2, 5) else m_light))
+    # chaîne / anse : (11,0)-(14,6)
+    for y in range(0, 6):
+        for x in range(11, 14):
+            if (y % 2 == 0 and x != 12) or (y % 2 == 1 and x == 12):
+                img.putpixel((x, y), hx(m_mid))
+    return img
+
+
+def lantern_item(ramp, metal):
+    r = RAMPS[ramp]
+    m_dark, m_mid, m_light = metal
+    rows = [
+        "................",
+        ".......cc.......",
+        "......c..c......",
+        ".......cc.......",
+        "......LLLL......",
+        ".....oMMMMo.....",
+        "....oMMMMMMo....",
+        "....og1221go....",
+        "....og2332go....",
+        "....og3443go....",
+        "....og2332go....",
+        "....og1221go....",
+        "....oMMMMMMo....",
+        ".....oooooo.....",
+        "................",
+        "................",
+    ]
+    pal = {"c": m_mid, "L": m_light, "M": m_mid, "o": m_dark, "g": m_dark,
+           "1": r[2], "2": r[3], "3": r[4], "4": r[5]}
+    return grid(rows, pal)
+
+
+def gui_altar():
+    W, H = 256, 256
+    img = Image.new("RGBA", (W, H), T)
+    px = img.load()
+
+    def rect(x0, y0, w, h, c):
+        for y in range(y0, y0 + h):
+            for x in range(x0, x0 + w):
+                px[x, y] = hx(c)
+
+    def slot(x, y, big=False):
+        s = 26 if big else 18
+        x0, y0 = (x - 5, y - 5) if big else (x - 1, y - 1)
+        rect(x0, y0, s, s, "#0e1228")
+        rect(x0, y0, s, 1, "#070914"); rect(x0, y0, 1, s, "#070914")
+        rect(x0, y0 + s - 1, s, 1, "#4a5590"); rect(x0 + s - 1, y0, 1, s, "#4a5590")
+        if big:
+            rect(x0 - 1, y0 - 1, s + 2, 1, LUMEN["s"]); rect(x0 - 1, y0 + s, s + 2, 1, LUMEN["s"])
+            rect(x0 - 1, y0 - 1, 1, s + 2, LUMEN["s"]); rect(x0 + s, y0 - 1, 1, s + 2, LUMEN["s"])
+
+    # panneau
+    rect(0, 0, 176, 166, "#1b2142")
+    rect(0, 0, 176, 2, "#0d1024"); rect(0, 164, 176, 2, "#0d1024")
+    rect(0, 0, 2, 166, "#0d1024"); rect(174, 0, 2, 166, "#0d1024")
+    rect(2, 2, 172, 1, "#3a4680"); rect(2, 2, 1, 162, "#3a4680")
+    rnd = random.Random(5)
+    for _ in range(40):
+        x, y = rnd.randrange(4, 172), rnd.randrange(4, 74)
+        px[x, y] = hx(rnd.choice(["#2c3566", "#34407a", "#bdf3ff"]))
+    # séparation inventaire
+    rect(7, 76, 162, 1, "#3a4680")
+    # emplacements machine
+    slot(27, 35)
+    slot(63, 17)
+    slot(63, 53)
+    slot(134, 35, big=True)
+    # liens essence → flèche
+    for x in range(81, 85):
+        px[x, 25] = hx("#3a4680"); px[x, 61] = hx("#3a4680")
+    for y in range(25, 62):
+        px[84, y] = hx("#3a4680")
+    for x in range(45, 61):
+        px[x, 43] = hx("#3a4680")
+    # flèche vide (85,35) 32x16 et pleine (176,0)
+    def arrow(ox, oy, body, head):
+        for y in range(16):
+            for x in range(32):
+                inside_body = 5 <= y <= 10 and x < 22
+                inside_head = x >= 22 and abs(y - 7.5) <= (31 - x) * 0.8
+                if inside_body:
+                    px[ox + x, oy + y] = hx(body)
+                elif inside_head:
+                    px[ox + x, oy + y] = hx(head)
+    arrow(85, 35, "#2c3566", "#2c3566")
+    arrow(176, 0, LUMEN["l"], LUMEN["h"])
+    # témoins follet (176,16) allumé, (192,16) éteint
+    img.alpha_composite(wisp("azur"), (176, 16))
+    grey = wisp("givre").convert("LA").convert("RGBA")
+    for y in range(16):
+        for x in range(16):
+            r_, g_, b_, a_ = grey.getpixel((x, y))
+            if a_:
+                grey.putpixel((x, y), (r_ // 3, g_ // 3, b_ // 3 + 20, a_))
+    img.alpha_composite(grey, (192, 16))
+    # inventaire joueur
+    for row in range(3):
+        for col in range(9):
+            slot(8 + col * 18, 84 + row * 18)
+    for col in range(9):
+        slot(8 + col * 18, 142)
+    return img
+
+
+IRON = ("#2b2d33", "#44474f", "#62656e")
+LUMEN_METAL = (LUMEN["o"], LUMEN["s"], LUMEN["m"])
+
+
+def phase3_textures():
+    out = {
+        "block/infusion_altar_top": altar_top(),
+        "block/infusion_altar_side": altar_side(),
+        "block/infusion_altar_bottom": altar_bottom(),
+        "block/calling_lantern": lantern_block_texture("azur", IRON),
+        "item/calling_lantern": call_lantern(),
+        "item/wisp_staff": staff("lumen"),
+        "entity/wisp_orb/plain": orb("lumen"),
+        "gui/infusion_altar": gui_altar(),
+    }
+    for r in ("azur", "emeraude", "braise", "givre"):
+        out[f"block/lumen_lantern_{r}"] = lantern_block_texture(r, LUMEN_METAL)
+        out[f"item/lumen_lantern_{r}"] = lantern_item(r, LUMEN_METAL)
+        out[f"item/charm_{r}"] = charm(r)
+        out[f"entity/wisp_orb/{r}"] = orb(r)
+    return out
+
 # ======================================================================
 # Écriture
 # ======================================================================
@@ -751,16 +985,20 @@ if __name__ == "__main__":
         "models/armor/lumen_layer_1": armor_layer(1),
         "models/armor/lumen_layer_2": armor_layer(2),
     }
-    for r in RAMPS:
+    for r in ("azur", "emeraude", "braise", "givre"):
         out[f"entity/wisp/{r}"] = wisp(r)
         out[f"item/wisp_jar_{r}"] = jar(r)
         out[f"item/essence_{r}"] = vial(r)
+    out.update(phase3_textures())
+    import shutil
+    if os.path.isdir(ROOT):
+        shutil.rmtree(ROOT)
     for name, img in out.items():
         path = os.path.join(ROOT, name + ".png")
         os.makedirs(os.path.dirname(path), exist_ok=True)
         img.save(path)
     # planche contact (hors resources) pour validation visuelle
-    sheet_items = [k for k in out if not k.startswith("models/")]
+    sheet_items = [k for k in out if not k.startswith("models/") and not k.startswith("gui/")]
     S = 64
     sheet = Image.new("RGBA", (S * 8 + 16, S * ((len(sheet_items) + 7) // 8) + 16), hx("#20242e"))
     for i, n in enumerate(sheet_items):
@@ -769,4 +1007,5 @@ if __name__ == "__main__":
     sheet.save("build/contact_sheet.png")
     for k in ("models/armor/lumen_layer_1", "models/armor/lumen_layer_2"):
         out[k].resize((256, 128), Image.NEAREST).save("build/" + k.split("/")[-1] + "_preview.png")
+    out["gui/infusion_altar"].crop((0, 0, 230, 166)).resize((690, 498), Image.NEAREST).save("build/gui_preview.png")
     print(len(out), "textures écrites")

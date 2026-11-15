@@ -2,6 +2,7 @@ package fr.leho.wisplight.registry;
 
 import fr.leho.wisplight.Wisplight;
 import fr.leho.wisplight.entity.WispEntity;
+import fr.leho.wisplight.entity.WispOrbEntity;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -17,6 +18,13 @@ public final class ModEntities {
                     .eyeHeight(0.25F)
                     .clientTrackingRange(8)
                     .build("wisp"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<WispOrbEntity>> WISP_ORB = ENTITIES.register("wisp_orb",
+            () -> EntityType.Builder.<WispOrbEntity>of(WispOrbEntity::new, MobCategory.MISC)
+                    .sized(0.3F, 0.3F)
+                    .clientTrackingRange(6)
+                    .updateInterval(10)
+                    .build("wisp_orb"));
 
     private ModEntities() {}
 }

@@ -1,0 +1,16 @@
+{
+  "type": "wisplight:infusion",
+  "ingredient": {
+    "item": "wisplight:lumen_ingot"
+  },
+  "essence_a": {
+    "item": "wisplight:essence_givre"
+  },
+  "essence_b": {
+    "item": "wisplight:essence_givre"
+  },
+  "result": {
+    "id": "wisplight:charm_givre",
+    "count": 1
+  }
+}

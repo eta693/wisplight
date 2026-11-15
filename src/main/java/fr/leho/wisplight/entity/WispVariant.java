@@ -1,6 +1,11 @@
 package fr.leho.wisplight.entity;
 
 import com.mojang.serialization.Codec;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextColor;
 import fr.leho.wisplight.Wisplight;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
@@ -16,6 +21,8 @@ public enum WispVariant implements StringRepresentable {
     GIVRE("givre", 0xCFEAFF, false);
 
     public static final Codec<WispVariant> CODEC = StringRepresentable.fromEnum(WispVariant::values);
+    public static final StreamCodec<ByteBuf, WispVariant> STREAM_CODEC =
+            ByteBufCodecs.VAR_INT.map(WispVariant::byIndex, WispVariant::ordinal);
 
     private final String id;
     private final int color;
@@ -48,6 +55,12 @@ public enum WispVariant implements StringRepresentable {
 
     public float blue() {
         return (color & 0xFF) / 255f;
+    }
+
+    /** Nom de l'essence (« Lumière », « Vie »...), coloré. */
+    public Component essenceName() {
+        return Component.translatable("essence.wisplight." + id)
+                .withStyle(style -> style.withColor(TextColor.fromRgb(color)));
     }
 
     public boolean isNether() {

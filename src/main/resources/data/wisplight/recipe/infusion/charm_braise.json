@@ -1,0 +1,16 @@
+{
+  "type": "wisplight:infusion",
+  "ingredient": {
+    "item": "wisplight:lumen_ingot"
+  },
+  "essence_a": {
+    "item": "wisplight:essence_braise"
+  },
+  "essence_b": {
+    "item": "wisplight:essence_braise"
+  },
+  "result": {
+    "id": "wisplight:charm_braise",
+    "count": 1
+  }
+}

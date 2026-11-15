@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "wisplight:lumen_sword",
+    "wisplight:lumen_pickaxe",
+    "wisplight:lumen_axe",
+    "wisplight:lumen_shovel",
+    "wisplight:lumen_hoe",
+    "wisplight:lumen_helmet",
+    "wisplight:lumen_chestplate",
+    "wisplight:lumen_leggings",
+    "wisplight:lumen_boots",
+    "wisplight:wisp_staff"
+  ]
+}

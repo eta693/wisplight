@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "persistent=false": {
+      "model": "wisplight:block/lingering_glow"
+    },
+    "persistent=true": {
+      "model": "wisplight:block/lingering_glow"
+    }
+  }
+}

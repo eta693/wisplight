@@ -100,6 +100,12 @@ public class WispJarBlock extends BaseEntityBlock {
             if (!player.getInventory().add(essence)) {
                 player.drop(essence, false);
             }
+            if (level.random.nextInt(4) == 0) {
+                ItemStack dust = new ItemStack(ModItems.WISP_DUST.get());
+                if (!player.getInventory().add(dust)) {
+                    player.drop(dust, false);
+                }
+            }
             level.playSound(null, pos, ModSounds.JAR_HARVEST.get(), SoundSource.BLOCKS, 0.8F, 1.0F);
         }
         return ItemInteractionResult.sidedSuccess(level.isClientSide);

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "hanging=false": {
+      "model": "wisplight:block/lumen_lantern_azur"
+    },
+    "hanging=true": {
+      "model": "wisplight:block/lumen_lantern_azur_hanging"
+    }
+  }
+}

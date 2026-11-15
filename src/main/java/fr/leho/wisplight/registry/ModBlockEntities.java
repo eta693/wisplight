@@ -1,6 +1,8 @@
 package fr.leho.wisplight.registry;
 
 import fr.leho.wisplight.Wisplight;
+import fr.leho.wisplight.blockentity.CallingLanternBlockEntity;
+import fr.leho.wisplight.blockentity.InfusionAltarBlockEntity;
 import fr.leho.wisplight.blockentity.WispJarBlockEntity;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.Block;
@@ -16,6 +18,16 @@ public final class ModBlockEntities {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<WispJarBlockEntity>> WISP_JAR =
             BLOCK_ENTITIES.register("wisp_jar", () -> BlockEntityType.Builder.of(WispJarBlockEntity::new,
                     ModBlocks.WISP_JARS.values().stream().map(h -> (Block) h.get()).toArray(Block[]::new)).build(null));
+
+    @SuppressWarnings("DataFlowIssue")
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<InfusionAltarBlockEntity>> INFUSION_ALTAR =
+            BLOCK_ENTITIES.register("infusion_altar", () -> BlockEntityType.Builder.of(InfusionAltarBlockEntity::new,
+                    ModBlocks.INFUSION_ALTAR.get()).build(null));
+
+    @SuppressWarnings("DataFlowIssue")
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CallingLanternBlockEntity>> CALLING_LANTERN =
+            BLOCK_ENTITIES.register("calling_lantern", () -> BlockEntityType.Builder.of(CallingLanternBlockEntity::new,
+                    ModBlocks.CALLING_LANTERN.get()).build(null));
 
     private ModBlockEntities() {}
 }

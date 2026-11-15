@@ -115,6 +115,42 @@ def harvest():
     return normalize(buf, 0.7)
 
 
+def altar_working():
+    x = t(1.6)
+    f = 110 + 40 * x
+    hum = 0.5 * np.sin(2 * np.pi * np.cumsum(f) / SR) + 0.25 * np.sin(2 * np.pi * np.cumsum(f * 2) / SR)
+    hum *= np.clip(x / 0.4, 0, 1) * np.clip((1.6 - x) / 0.4, 0, 1)
+    buf = hum.copy()
+    for i, fr in enumerate([1319, 1568, 1976, 2637]):
+        place(buf, bell(fr, 0.5, decay=0.25) * 0.3, 0.25 + 0.3 * i)
+    return normalize(buf, 0.6)
+
+
+def altar_done():
+    buf = np.zeros(int(SR * 1.6))
+    for i, fr in enumerate([1047, 1319, 1568, 2093]):
+        place(buf, bell(fr, 1.4, decay=0.8) * 0.8, 0.02 * i)
+    return normalize(buf, 0.75)
+
+
+def staff_shoot():
+    x = t(0.45)
+    noise = lowpass(rng.standard_normal(len(x)), 0.25) * env(len(x), 0.005, 0.12)
+    f = np.linspace(400, 1800, len(x))
+    zap = np.sin(2 * np.pi * np.cumsum(f) / SR) * env(len(x), 0.002, 0.15)
+    return normalize(noise * 0.6 + zap * 0.7, 0.7)
+
+
+def orb_impact():
+    buf = np.zeros(int(SR * 0.6))
+    x = t(0.15)
+    pop = lowpass(rng.standard_normal(len(x)), 0.35) * env(len(x), 0.001, 0.04)
+    place(buf, pop, 0.0)
+    place(buf, bell(2093, 0.5, decay=0.2) * 0.5, 0.01)
+    place(buf, bell(3136, 0.4, decay=0.15) * 0.35, 0.05)
+    return normalize(buf, 0.7)
+
+
 def write_ogg(name, sig):
     path = os.path.join(OUT, name + ".ogg")
     os.makedirs(os.path.dirname(path), exist_ok=True)
@@ -141,6 +177,10 @@ if __name__ == "__main__":
         "wisp/release": release(),
         "jar/essence_ready": essence_ready(),
         "jar/harvest": harvest(),
+        "altar/working": altar_working(),
+        "altar/done": altar_done(),
+        "staff/shoot": staff_shoot(),
+        "staff/impact": orb_impact(),
     }
     for n, s in sounds.items():
         write_ogg(n, s)

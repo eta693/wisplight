@@ -1,0 +1,16 @@
+{
+  "type": "wisplight:infusion",
+  "ingredient": {
+    "item": "wisplight:lumen_ingot"
+  },
+  "essence_a": {
+    "item": "wisplight:essence_azur"
+  },
+  "essence_b": {
+    "item": "wisplight:essence_azur"
+  },
+  "result": {
+    "id": "wisplight:charm_azur",
+    "count": 1
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "hanging=false": {
+      "model": "wisplight:block/lumen_lantern_braise"
+    },
+    "hanging=true": {
+      "model": "wisplight:block/lumen_lantern_braise_hanging"
+    }
+  }
+}

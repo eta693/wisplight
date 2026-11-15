@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "hanging=false": {
+      "model": "wisplight:block/calling_lantern"
+    },
+    "hanging=true": {
+      "model": "wisplight:block/calling_lantern_hanging"
+    }
+  }
+}

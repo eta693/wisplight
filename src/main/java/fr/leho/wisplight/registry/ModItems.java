@@ -2,6 +2,8 @@ package fr.leho.wisplight.registry;
 
 import fr.leho.wisplight.Wisplight;
 import fr.leho.wisplight.entity.WispVariant;
+import fr.leho.wisplight.item.CharmItem;
+import fr.leho.wisplight.item.WispStaffItem;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -77,6 +79,27 @@ public final class ModItems {
     public static final DeferredItem<ArmorItem> LUMEN_CHESTPLATE = armor("lumen_chestplate", ArmorItem.Type.CHESTPLATE);
     public static final DeferredItem<ArmorItem> LUMEN_LEGGINGS = armor("lumen_leggings", ArmorItem.Type.LEGGINGS);
     public static final DeferredItem<ArmorItem> LUMEN_BOOTS = armor("lumen_boots", ArmorItem.Type.BOOTS);
+
+    // --- Infusion ---
+    public static final DeferredItem<BlockItem> INFUSION_ALTAR = block("infusion_altar", ModBlocks.INFUSION_ALTAR);
+    public static final DeferredItem<BlockItem> CALLING_LANTERN = block("calling_lantern", ModBlocks.CALLING_LANTERN);
+    public static final Map<WispVariant, DeferredItem<BlockItem>> LUMEN_LANTERNS =
+            Util.make(new EnumMap<>(WispVariant.class), map -> {
+                for (WispVariant variant : WispVariant.values()) {
+                    map.put(variant, block("lumen_lantern_" + variant.id(), ModBlocks.LUMEN_LANTERNS.get(variant)));
+                }
+            });
+
+    public static final Map<WispVariant, DeferredItem<CharmItem>> CHARMS =
+            Util.make(new EnumMap<>(WispVariant.class), map -> {
+                for (WispVariant variant : WispVariant.values()) {
+                    map.put(variant, ITEMS.register("charm_" + variant.id(),
+                            () -> new CharmItem(variant, new Item.Properties().stacksTo(1).rarity(Rarity.RARE))));
+                }
+            });
+
+    public static final DeferredItem<WispStaffItem> WISP_STAFF = ITEMS.register("wisp_staff",
+            () -> new WispStaffItem(new Item.Properties().durability(250).rarity(Rarity.UNCOMMON)));
 
     // --- Divers ---
     public static final DeferredItem<DeferredSpawnEggItem> WISP_SPAWN_EGG = ITEMS.register("wisp_spawn_egg",

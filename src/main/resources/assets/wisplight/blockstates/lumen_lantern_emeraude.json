@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "hanging=false": {
+      "model": "wisplight:block/lumen_lantern_emeraude"
+    },
+    "hanging=true": {
+      "model": "wisplight:block/lumen_lantern_emeraude_hanging"
+    }
+  }
+}

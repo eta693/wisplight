@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    " DL",
+    " SD",
+    "S  "
+  ],
+  "key": {
+    "L": {
+      "item": "wisplight:lumen_ingot"
+    },
+    "D": {
+      "item": "wisplight:wisp_dust"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "id": "wisplight:wisp_staff",
+    "count": 1
+  }
+}

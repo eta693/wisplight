@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "decorations",
+  "pattern": [
+    " S ",
+    "SES",
+    " S "
+  ],
+  "key": {
+    "S": {
+      "item": "wisplight:lumen_shard"
+    },
+    "E": {
+      "item": "wisplight:essence_azur"
+    }
+  },
+  "result": {
+    "id": "wisplight:lumen_lantern_azur",
+    "count": 2
+  }
+}

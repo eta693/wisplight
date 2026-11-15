@@ -17,6 +17,11 @@ public final class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> JAR_ESSENCE_READY = register("block.wisp_jar.essence_ready");
     public static final DeferredHolder<SoundEvent, SoundEvent> JAR_HARVEST = register("block.wisp_jar.harvest");
 
+    public static final DeferredHolder<SoundEvent, SoundEvent> ALTAR_WORKING = register("block.infusion_altar.working");
+    public static final DeferredHolder<SoundEvent, SoundEvent> ALTAR_DONE = register("block.infusion_altar.done");
+    public static final DeferredHolder<SoundEvent, SoundEvent> STAFF_SHOOT = register("item.wisp_staff.shoot");
+    public static final DeferredHolder<SoundEvent, SoundEvent> ORB_IMPACT = register("entity.wisp_orb.impact");
+
     private static DeferredHolder<SoundEvent, SoundEvent> register(String name) {
         return SOUNDS.register(name, () -> SoundEvent.createVariableRangeEvent(Wisplight.id(name)));
     }

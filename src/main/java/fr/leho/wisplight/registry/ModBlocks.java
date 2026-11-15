@@ -1,6 +1,9 @@
 package fr.leho.wisplight.registry;
 
 import fr.leho.wisplight.Wisplight;
+import fr.leho.wisplight.block.CallingLanternBlock;
+import fr.leho.wisplight.block.InfusionAltarBlock;
+import fr.leho.wisplight.block.LingeringGlowBlock;
 import fr.leho.wisplight.block.TraceLightBlock;
 import fr.leho.wisplight.block.WispJarBlock;
 import fr.leho.wisplight.entity.WispVariant;
@@ -11,6 +14,7 @@ import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DropExperienceBlock;
+import net.minecraft.world.level.block.LanternBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
@@ -57,6 +61,36 @@ public final class ModBlocks {
                                     .sound(SoundType.GLASS)
                                     .noOcclusion()
                                     .lightLevel(state -> 15))));
+                }
+            });
+
+    public static final DeferredBlock<InfusionAltarBlock> INFUSION_ALTAR = BLOCKS.register("infusion_altar",
+            () -> new InfusionAltarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.POLISHED_DEEPSLATE)
+                    .mapColor(MapColor.COLOR_GRAY)
+                    .strength(3.0F, 9.0F)
+                    .noOcclusion()
+                    .lightLevel(state -> 6)));
+
+    public static final DeferredBlock<LingeringGlowBlock> LINGERING_GLOW = BLOCKS.register("lingering_glow",
+            () -> new LingeringGlowBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.NONE)
+                    .replaceable()
+                    .noCollission()
+                    .noLootTable()
+                    .noOcclusion()
+                    .instabreak()
+                    .sound(SoundType.AMETHYST_CLUSTER)
+                    .pushReaction(PushReaction.DESTROY)
+                    .lightLevel(state -> 12)));
+
+    public static final DeferredBlock<CallingLanternBlock> CALLING_LANTERN = BLOCKS.register("calling_lantern",
+            () -> new CallingLanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LANTERN).noOcclusion()));
+
+    public static final Map<WispVariant, DeferredBlock<LanternBlock>> LUMEN_LANTERNS =
+            Util.make(new EnumMap<>(WispVariant.class), map -> {
+                for (WispVariant variant : WispVariant.values()) {
+                    map.put(variant, BLOCKS.register("lumen_lantern_" + variant.id(),
+                            () -> new LanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LANTERN).noOcclusion())));
                 }
             });
 
