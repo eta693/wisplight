@@ -1,0 +1,104 @@
+name: Build & GameTests
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Resolve versions
+        id: versions
+        run: |
+          mkdir -p report
+          NEO=$(grep '^neo_version=' gradle.properties | cut -d= -f2)
+          MDG=$(grep '^moddev_version=' gradle.properties | cut -d= -f2)
+          if [ "$NEO" = "latest" ]; then
+            NEO=$(curl -fsSL https://maven.neoforged.net/releases/net/neoforged/neoforge/maven-metadata.xml \
+              | grep -oE '<version>21\.1\.[0-9]+</version>' | sed -E 's#</?version>##g' | sort -V | tail -1)
+          fi
+          if [ "$MDG" = "latest" ]; then
+            MDG=$(curl -fsSL https://maven.neoforged.net/releases/net/neoforged/moddev/net.neoforged.moddev.gradle.plugin/maven-metadata.xml \
+              | grep -oE '<version>2\.0\.[0-9]+</version>' | sed -E 's#</?version>##g' | sort -V | tail -1)
+          fi
+          echo "neo=$NEO" >> "$GITHUB_OUTPUT"
+          echo "mdg=$MDG" >> "$GITHUB_OUTPUT"
+          printf 'neo_version=%s\nmoddev_version=%s\n' "$NEO" "$MDG" > report/versions.txt
+          cat report/versions.txt
+
+      - name: Build
+        id: build
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          chmod +x gradlew
+          ./gradlew build --stacktrace \
+            -Pneo_version=${{ steps.versions.outputs.neo }} \
+            -Pmoddev_version=${{ steps.versions.outputs.mdg }} 2>&1 | tee report/build.log
+
+      - name: GameTests
+        id: gametest
+        if: steps.build.outcome == 'success'
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          timeout 1200 ./gradlew runGameTestServer \
+            -Pneo_version=${{ steps.versions.outputs.neo }} \
+            -Pmoddev_version=${{ steps.versions.outputs.mdg }} 2>&1 | tee report/gametest.log
+
+      - name: Collect report
+        if: always()
+        run: |
+          {
+            echo "sha=${GITHUB_SHA}"
+            echo "build=${{ steps.build.outcome }}"
+            echo "gametest=${{ steps.gametest.outcome }}"
+          } > report/status.txt
+          grep -nE 'error:|warning: \[|FAILED|Exception|Caused by' report/build.log > report/build-errors.txt 2>/dev/null || true
+          cp build/libs/*.jar report/ 2>/dev/null || true
+          cp -r build/test-results report/test-results 2>/dev/null || true
+          if [ -d run ]; then
+            find run -maxdepth 2 -name '*.log' -exec cp {} report/ \; 2>/dev/null || true
+            find run -maxdepth 3 -name '*.xml' -path '*gametest*' -exec cp {} report/ \; 2>/dev/null || true
+          fi
+          ls -la report
+
+      - name: Push report branch
+        if: always()
+        run: |
+          cd report
+          git init -q -b ci-report
+          git add -A
+          git -c user.name="wisplight-ci" -c user.email="ci@users.noreply.github.com" \
+            commit -qm "CI ${GITHUB_SHA::7} build=${{ steps.build.outcome }} gametest=${{ steps.gametest.outcome }}"
+          git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" ci-report
+
+      - name: Upload jar
+        if: steps.build.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: wisplight-jar
+          path: build/libs/*.jar
+
+      - name: Fail if broken
+        if: steps.build.outcome != 'success' || steps.gametest.outcome != 'success'
+        run: exit 1

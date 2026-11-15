@@ -1,0 +1,17 @@
+# Gradle / IDE
+.gradle/
+build/
+out/
+run/
+runs/
+*.iml
+.idea/
+.vscode/
+.classpath
+.project
+.settings/
+bin/
+
+# Outils
+tools/__pycache__/
+*.pyc
