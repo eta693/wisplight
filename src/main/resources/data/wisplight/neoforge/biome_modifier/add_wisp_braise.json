@@ -1,0 +1,10 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "#wisplight:wisp_braise_biomes",
+  "spawners": {
+    "type": "wisplight:wisp",
+    "weight": 12,
+    "minCount": 1,
+    "maxCount": 3
+  }
+}

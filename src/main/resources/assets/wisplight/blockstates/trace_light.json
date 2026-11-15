@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "age=0": {
+      "model": "wisplight:block/trace_light"
+    },
+    "age=1": {
+      "model": "wisplight:block/trace_light"
+    },
+    "age=2": {
+      "model": "wisplight:block/trace_light"
+    },
+    "age=3": {
+      "model": "wisplight:block/trace_light"
+    }
+  }
+}

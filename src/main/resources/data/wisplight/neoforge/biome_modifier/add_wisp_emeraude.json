@@ -1,0 +1,10 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "#wisplight:wisp_emeraude_biomes",
+  "spawners": {
+    "type": "wisplight:wisp",
+    "weight": 10,
+    "minCount": 1,
+    "maxCount": 3
+  }
+}

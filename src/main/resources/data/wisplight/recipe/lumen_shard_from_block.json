@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "wisplight:lumen_block"
+    }
+  ],
+  "result": {
+    "id": "wisplight:lumen_shard",
+    "count": 9
+  }
+}

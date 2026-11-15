@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "wisplight:lumen_shard"
+    },
+    {
+      "item": "wisplight:lumen_shard"
+    },
+    {
+      "item": "wisplight:lumen_shard"
+    },
+    {
+      "item": "wisplight:lumen_shard"
+    },
+    {
+      "item": "minecraft:gold_ingot"
+    }
+  ],
+  "result": {
+    "id": "wisplight:lumen_ingot",
+    "count": 1
+  }
+}

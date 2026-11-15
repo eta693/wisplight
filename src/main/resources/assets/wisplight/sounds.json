@@ -1,0 +1,46 @@
+{
+  "entity.wisp.ambient": {
+    "subtitle": "subtitles.wisplight.entity.wisp.ambient",
+    "sounds": [
+      "wisplight:wisp/ambient1",
+      "wisplight:wisp/ambient2",
+      "wisplight:wisp/ambient3"
+    ]
+  },
+  "entity.wisp.hurt": {
+    "subtitle": "subtitles.wisplight.entity.wisp.hurt",
+    "sounds": [
+      "wisplight:wisp/hurt"
+    ]
+  },
+  "entity.wisp.death": {
+    "subtitle": "subtitles.wisplight.entity.wisp.death",
+    "sounds": [
+      "wisplight:wisp/death"
+    ]
+  },
+  "entity.wisp.capture": {
+    "subtitle": "subtitles.wisplight.entity.wisp.capture",
+    "sounds": [
+      "wisplight:wisp/capture"
+    ]
+  },
+  "entity.wisp.release": {
+    "subtitle": "subtitles.wisplight.entity.wisp.release",
+    "sounds": [
+      "wisplight:wisp/release"
+    ]
+  },
+  "block.wisp_jar.essence_ready": {
+    "subtitle": "subtitles.wisplight.block.wisp_jar.essence_ready",
+    "sounds": [
+      "wisplight:jar/essence_ready"
+    ]
+  },
+  "block.wisp_jar.harvest": {
+    "subtitle": "subtitles.wisplight.block.wisp_jar.harvest",
+    "sounds": [
+      "wisplight:jar/harvest"
+    ]
+  }
+}

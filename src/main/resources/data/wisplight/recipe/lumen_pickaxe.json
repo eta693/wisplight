@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "LLL",
+    " S ",
+    " S "
+  ],
+  "key": {
+    "L": {
+      "item": "wisplight:lumen_ingot"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "id": "wisplight:lumen_pickaxe",
+    "count": 1
+  }
+}

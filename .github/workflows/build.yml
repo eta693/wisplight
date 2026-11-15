@@ -45,6 +45,13 @@ jobs:
           printf 'neo_version=%s\nmoddev_version=%s\n' "$NEO" "$MDG" > report/versions.txt
           cat report/versions.txt
 
+      - name: Asset check
+        id: assets
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          python3 tools/check_assets.py 2>&1 | tee report/assets.log
+
       - name: Build
         id: build
         continue-on-error: true
@@ -72,6 +79,7 @@ jobs:
             echo "sha=${GITHUB_SHA}"
             echo "build=${{ steps.build.outcome }}"
             echo "gametest=${{ steps.gametest.outcome }}"
+            echo "assets=${{ steps.assets.outcome }}"
           } > report/status.txt
           grep -nE 'error:|warning: \[|FAILED|Exception|Caused by' report/build.log > report/build-errors.txt 2>/dev/null || true
           cp build/libs/*.jar report/ 2>/dev/null || true
@@ -100,5 +108,5 @@ jobs:
           path: build/libs/*.jar
 
       - name: Fail if broken
-        if: steps.build.outcome != 'success' || steps.gametest.outcome != 'success'
+        if: steps.build.outcome != 'success' || steps.gametest.outcome != 'success' || steps.assets.outcome != 'success'
         run: exit 1

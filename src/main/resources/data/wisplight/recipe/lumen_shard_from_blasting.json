@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "ingredient": {
+    "tag": "wisplight:lumen_ores"
+  },
+  "result": {
+    "id": "wisplight:lumen_shard"
+  },
+  "experience": 0.7,
+  "cookingtime": 100
+}

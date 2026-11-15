@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "wisplight:lumen_helmet",
+    "wisplight:lumen_chestplate",
+    "wisplight:lumen_leggings",
+    "wisplight:lumen_boots"
+  ]
+}

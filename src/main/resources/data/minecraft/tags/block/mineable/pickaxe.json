@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "wisplight:lumen_ore",
+    "wisplight:deepslate_lumen_ore",
+    "wisplight:lumen_block"
+  ]
+}
