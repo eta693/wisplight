@@ -161,8 +161,19 @@ public final class SanctuaryTests {
                         }
                     }
                     helper.assertTrue(runes == 4, "4 pierres runiques attendues autour de l'autel, trouvées : " + runes);
-                    boolean spawner = BlockPos.betweenClosedStream(altar.offset(-4, -8, -4), altar.offset(4, -1, 4))
-                            .anyMatch(p -> level.getBlockState(p).is(Blocks.SPAWNER));
+                    // La crypte est 6 blocs sous l'autel. Dans le monde plat de test, elle passe sous la limite du
+                    // monde (Y -64) : on vérifie alors le générateur dans le modèle lui-même.
+                    boolean spawner;
+                    if (altar.getY() - 7 >= level.getMinBuildHeight()) {
+                        spawner = BlockPos.betweenClosedStream(altar.offset(-4, -8, -4), altar.offset(4, -1, 4))
+                                .anyMatch(p -> level.getBlockState(p).is(Blocks.SPAWNER));
+                    } else {
+                        spawner = level.getStructureManager().get(Wisplight.id("sanctuary/main"))
+                                .map(t -> !t.filterBlocks(BlockPos.ZERO,
+                                        new net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings(),
+                                        Blocks.SPAWNER).isEmpty())
+                                .orElse(false);
+                    }
                     helper.assertTrue(spawner, "La crypte doit contenir un générateur d'Ombres");
                     for (int dx = -4; dx <= 4; dx++) {
                         for (int dz = -4; dz <= 4; dz++) {
