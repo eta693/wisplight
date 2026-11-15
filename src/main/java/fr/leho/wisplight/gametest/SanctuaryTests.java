@@ -123,34 +123,54 @@ public final class SanctuaryTests {
     }
 
     /** Le Sanctuaire oublié se génère réellement dans le monde (commande /place structure). */
-    @GameTest(template = "empty", timeoutTicks = 200)
+    @GameTest(template = "empty", timeoutTicks = 400)
     public static void sanctuaryGenerates(GameTestHelper helper) {
         ServerLevel level = helper.getLevel();
         BlockPos base = helper.absolutePos(BlockPos.ZERO).offset(3000, 0, 3000);
-        CommandSourceStack source = level.getServer().createCommandSourceStack()
-                .withLevel(level).withPermission(4).withSuppressedOutput();
-        try {
-            level.getServer().getCommands().getDispatcher().execute(
-                    "place structure wisplight:sanctuary " + base.getX() + " " + base.getY() + " " + base.getZ(), source);
-        } catch (CommandSyntaxException e) {
-            helper.fail("Commande invalide : " + e.getMessage());
-            return;
-        }
-        BlockPos altar = BlockPos.betweenClosedStream(base.offset(-48, -24, -48), base.offset(48, 48, 48))
-                .filter(p -> level.getBlockState(p).is(ModBlocks.SANCTUARY_ALTAR.get()))
-                .map(BlockPos::immutable).findFirst().orElse(null);
-        helper.assertTrue(altar != null, "L'autel du sanctuaire doit avoir été généré");
-        int runes = 0;
-        for (BlockPos p : BlockPos.betweenClosed(altar.offset(-4, -1, -4), altar.offset(4, 1, 4))) {
-            if (level.getBlockState(p).getBlock() instanceof RunestoneBlock) {
-                runes++;
+        net.minecraft.world.level.ChunkPos center = new net.minecraft.world.level.ChunkPos(base);
+        for (int dx = -4; dx <= 4; dx++) {
+            for (int dz = -4; dz <= 4; dz++) {
+                level.setChunkForced(center.x + dx, center.z + dz, true);
             }
         }
-        helper.assertTrue(runes == 4, "4 pierres runiques attendues autour de l'autel, trouvées : " + runes);
-        boolean spawner = BlockPos.betweenClosedStream(altar.offset(-4, -8, -4), altar.offset(4, -1, 4))
-                .anyMatch(p -> level.getBlockState(p).is(Blocks.SPAWNER));
-        helper.assertTrue(spawner, "La crypte doit contenir un générateur d'Ombres");
-        helper.succeed();
+        helper.startSequence()
+                .thenWaitUntil(() -> {
+                    for (int dx = -4; dx <= 4; dx++) {
+                        for (int dz = -4; dz <= 4; dz++) {
+                            helper.assertTrue(level.hasChunk(center.x + dx, center.z + dz), "Chunk pas encore chargé");
+                        }
+                    }
+                })
+                .thenExecute(() -> {
+                    CommandSourceStack source = level.getServer().createCommandSourceStack()
+                            .withLevel(level).withPermission(4).withSuppressedOutput();
+                    try {
+                        level.getServer().getCommands().getDispatcher().execute(
+                                "place structure wisplight:sanctuary " + base.getX() + " " + base.getY() + " " + base.getZ(), source);
+                    } catch (CommandSyntaxException e) {
+                        helper.fail("Commande refusée : " + e.getMessage());
+                    }
+                    BlockPos altar = BlockPos.betweenClosedStream(base.offset(-48, -24, -48), base.offset(48, 48, 48))
+                            .filter(p -> level.getBlockState(p).is(ModBlocks.SANCTUARY_ALTAR.get()))
+                            .map(BlockPos::immutable).findFirst().orElse(null);
+                    helper.assertTrue(altar != null, "L'autel du sanctuaire doit avoir été généré");
+                    int runes = 0;
+                    for (BlockPos p : BlockPos.betweenClosed(altar.offset(-4, -1, -4), altar.offset(4, 1, 4))) {
+                        if (level.getBlockState(p).getBlock() instanceof RunestoneBlock) {
+                            runes++;
+                        }
+                    }
+                    helper.assertTrue(runes == 4, "4 pierres runiques attendues autour de l'autel, trouvées : " + runes);
+                    boolean spawner = BlockPos.betweenClosedStream(altar.offset(-4, -8, -4), altar.offset(4, -1, 4))
+                            .anyMatch(p -> level.getBlockState(p).is(Blocks.SPAWNER));
+                    helper.assertTrue(spawner, "La crypte doit contenir un générateur d'Ombres");
+                    for (int dx = -4; dx <= 4; dx++) {
+                        for (int dz = -4; dz <= 4; dz++) {
+                            level.setChunkForced(center.x + dx, center.z + dz, false);
+                        }
+                    }
+                })
+                .thenSucceed();
     }
 
     /** La boussole donne la bonne direction, et le modèle du sanctuaire existe. */
