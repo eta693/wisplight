@@ -4,6 +4,7 @@ import fr.leho.wisplight.Wisplight;
 import fr.leho.wisplight.entity.WispVariant;
 import fr.leho.wisplight.item.CharmItem;
 import fr.leho.wisplight.item.EternalLanternItem;
+import fr.leho.wisplight.item.GrimoireItem;
 import fr.leho.wisplight.item.SanctuaryCompassItem;
 import fr.leho.wisplight.item.WatcherStaffItem;
 import fr.leho.wisplight.item.WispStaffItem;
@@ -28,6 +29,10 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 
 public final class ModItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Wisplight.MOD_ID);
+
+    // --- Guide ---
+    public static final DeferredItem<GrimoireItem> GRIMOIRE = ITEMS.register("grimoire",
+            () -> new GrimoireItem(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));
 
     // --- Ressources ---
     public static final DeferredItem<Item> LUMEN_SHARD = simple("lumen_shard");

@@ -175,6 +175,13 @@ public class WispEntity extends Mob {
             yHeadRot = yaw;
         }
 
+        // Succès « Lueur dans la nuit » pour les joueurs proches
+        if (tickCount % 20 == 0) {
+            for (Player p : level.getEntitiesOfClass(Player.class, getBoundingBox().inflate(8.0))) {
+                fr.leho.wisplight.registry.ModAdvancements.award(p, fr.leho.wisplight.registry.ModAdvancements.SEE_WISP);
+            }
+        }
+
         // Lumière dynamique
         if (WisplightConfig.dynamicLight() && tickCount % 4 == 0) {
             TraceLightBlock.refresh(level, BlockPos.containing(getX(), getY() + 0.25, getZ()));

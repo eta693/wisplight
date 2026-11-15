@@ -1,0 +1,35 @@
+{
+  "display": {
+    "icon": {
+      "id": "wisplight:lumen_shard"
+    },
+    "title": {
+      "translate": "advancements.wisplight.lumen.title"
+    },
+    "description": {
+      "translate": "advancements.wisplight.lumen.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "shard": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "wisplight:lumen_shard"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "shard"
+    ]
+  ],
+  "parent": "wisplight:root"
+}

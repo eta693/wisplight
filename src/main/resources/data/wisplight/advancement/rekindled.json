@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "id": "wisplight:lantern_heart"
+    },
+    "title": {
+      "translate": "advancements.wisplight.rekindled.title"
+    },
+    "description": {
+      "translate": "advancements.wisplight.rekindled.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "kill": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "wisplight:hollow_warden"
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "kill"
+    ]
+  ],
+  "parent": "wisplight:the_ritual"
+}

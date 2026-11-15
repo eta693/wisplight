@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "wisplight:wisp_jar_azur",
+    "wisplight:wisp_jar_emeraude",
+    "wisplight:wisp_jar_braise",
+    "wisplight:wisp_jar_givre"
+  ]
+}

@@ -125,6 +125,9 @@ public class InfusionAltarBlockEntity extends BlockEntity implements MenuProvide
         }
         if (progress >= WORK_TICKS) {
             craft(result);
+            for (Player p : level.getEntitiesOfClass(Player.class, new net.minecraft.world.phys.AABB(worldPosition).inflate(8))) {
+                fr.leho.wisplight.registry.ModAdvancements.award(p, fr.leho.wisplight.registry.ModAdvancements.FIRST_INFUSION);
+            }
             level.playSound(null, worldPosition, ModSounds.ALTAR_DONE.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
             progress = 0;
         }

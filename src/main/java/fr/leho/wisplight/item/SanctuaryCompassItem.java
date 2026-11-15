@@ -52,6 +52,7 @@ public class SanctuaryCompassItem extends CompassItem {
                 player.displayClientMessage(Component.translatable("message.wisplight.compass.found",
                         distance, direction(dx, dz)), true);
                 level.playSound(null, player.blockPosition(), ModSounds.COMPASS_LOCATE.get(), SoundSource.PLAYERS, 0.8F, 1.0F);
+                fr.leho.wisplight.registry.ModAdvancements.award(player, fr.leho.wisplight.registry.ModAdvancements.ON_THE_TRAIL);
             }
             player.getCooldowns().addCooldown(this, COOLDOWN);
         }

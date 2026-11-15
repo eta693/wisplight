@@ -82,6 +82,9 @@ jobs:
             echo "assets=${{ steps.assets.outcome }}"
           } > report/status.txt
           grep -nE 'error:|warning: \[|FAILED|Exception|Caused by' report/build.log > report/build-errors.txt 2>/dev/null || true
+          grep -iE "wisplight" report/gametest.log | grep -iE "error|exception|invalid|couldn't|failed to|unknown" \
+            | grep -v "GameTestHooks" > report/data-errors.txt 2>/dev/null || true
+          echo "dataerrors=$(wc -l < report/data-errors.txt 2>/dev/null || echo 0)" >> report/status.txt
           cp build/libs/*.jar report/ 2>/dev/null || true
           cp -r build/test-results report/test-results 2>/dev/null || true
           if [ -d run ]; then

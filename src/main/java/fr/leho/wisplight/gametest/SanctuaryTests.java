@@ -10,7 +10,10 @@ import fr.leho.wisplight.item.SanctuaryCompassItem;
 import fr.leho.wisplight.registry.ModBlocks;
 import fr.leho.wisplight.registry.ModEntities;
 import fr.leho.wisplight.registry.ModItems;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.network.chat.contents.TranslatableContents;
@@ -116,6 +119,37 @@ public final class SanctuaryTests {
         warden.kill();
         helper.assertItemEntityPresent(ModItems.LANTERN_HEART.get(), new BlockPos(4, 2, 4), 4.0);
         helper.assertTrue(WisplightWorldData.get(helper.getLevel().getServer()).isRekindled(), "Flamme ravivée");
+        helper.succeed();
+    }
+
+    /** Le Sanctuaire oublié se génère réellement dans le monde (commande /place structure). */
+    @GameTest(template = "empty", timeoutTicks = 200)
+    public static void sanctuaryGenerates(GameTestHelper helper) {
+        ServerLevel level = helper.getLevel();
+        BlockPos base = helper.absolutePos(BlockPos.ZERO).offset(3000, 0, 3000);
+        CommandSourceStack source = level.getServer().createCommandSourceStack()
+                .withLevel(level).withPermission(4).withSuppressedOutput();
+        try {
+            level.getServer().getCommands().getDispatcher().execute(
+                    "place structure wisplight:sanctuary " + base.getX() + " " + base.getY() + " " + base.getZ(), source);
+        } catch (CommandSyntaxException e) {
+            helper.fail("Commande invalide : " + e.getMessage());
+            return;
+        }
+        BlockPos altar = BlockPos.betweenClosedStream(base.offset(-48, -24, -48), base.offset(48, 48, 48))
+                .filter(p -> level.getBlockState(p).is(ModBlocks.SANCTUARY_ALTAR.get()))
+                .map(BlockPos::immutable).findFirst().orElse(null);
+        helper.assertTrue(altar != null, "L'autel du sanctuaire doit avoir été généré");
+        int runes = 0;
+        for (BlockPos p : BlockPos.betweenClosed(altar.offset(-4, -1, -4), altar.offset(4, 1, 4))) {
+            if (level.getBlockState(p).getBlock() instanceof RunestoneBlock) {
+                runes++;
+            }
+        }
+        helper.assertTrue(runes == 4, "4 pierres runiques attendues autour de l'autel, trouvées : " + runes);
+        boolean spawner = BlockPos.betweenClosedStream(altar.offset(-4, -8, -4), altar.offset(4, -1, 4))
+                .anyMatch(p -> level.getBlockState(p).is(Blocks.SPAWNER));
+        helper.assertTrue(spawner, "La crypte doit contenir un générateur d'Ombres");
         helper.succeed();
     }
 

@@ -1,0 +1,74 @@
+{
+  "display": {
+    "icon": {
+      "id": "wisplight:charm_azur"
+    },
+    "title": {
+      "translate": "advancements.wisplight.rainbow.title"
+    },
+    "description": {
+      "translate": "advancements.wisplight.rainbow.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "charm_azur": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "wisplight:charm_azur"
+          }
+        ]
+      }
+    },
+    "charm_emeraude": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "wisplight:charm_emeraude"
+          }
+        ]
+      }
+    },
+    "charm_braise": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "wisplight:charm_braise"
+          }
+        ]
+      }
+    },
+    "charm_givre": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "wisplight:charm_givre"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "charm_azur"
+    ],
+    [
+      "charm_emeraude"
+    ],
+    [
+      "charm_braise"
+    ],
+    [
+      "charm_givre"
+    ]
+  ],
+  "parent": "wisplight:first_infusion"
+}

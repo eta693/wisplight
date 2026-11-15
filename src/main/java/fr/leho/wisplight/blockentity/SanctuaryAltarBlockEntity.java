@@ -89,6 +89,7 @@ public class SanctuaryAltarBlockEntity extends BlockEntity {
             runes.add(charged.get(v));
         }
         ritualTicks = 1;
+        fr.leho.wisplight.registry.ModAdvancements.award(player, fr.leho.wisplight.registry.ModAdvancements.RITUAL);
         level.playSound(null, worldPosition, ModSounds.RITUAL_START.get(), SoundSource.BLOCKS, 1.5F, 1.0F);
         level.sendParticles(ParticleTypes.SOUL_FIRE_FLAME, worldPosition.getX() + 0.5, worldPosition.getY() + 1.2,
                 worldPosition.getZ() + 0.5, 30, 0.3, 0.4, 0.3, 0.02);

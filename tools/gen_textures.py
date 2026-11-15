@@ -1233,6 +1233,31 @@ def warden_orb():
     return out
 
 
+GRIMOIRE = [
+    "................",
+    "..oooooooooooo..",
+    "..obbbbbbbbbbpo.",
+    "..obgggggggggpo.",
+    "..obg.......gpo.",
+    "..obg..aa...gpo.",
+    "..obg.abba..gpo.",
+    "..obg.abba..gpo.",
+    "..obg..aa...gpo.",
+    "..obg.......gpo.",
+    "..obgggggggggpo.",
+    "..obbbbbbbbbbpo.",
+    "..oddddddddddpo.",
+    "..oppppppppppo..",
+    "...oooooooooo...",
+    "................",
+]
+
+
+def grimoire():
+    return grid(GRIMOIRE, {"o": "#1a1424", "b": "#2c3566", "g": LUMEN["m"], "a": RAMPS["azur"][3],
+                           "d": "#1d2550", "p": "#e8e0c8", ".": "#2c3566"})
+
+
 def phase5_textures():
     bricks_img = bricks()
     out = {
@@ -1242,6 +1267,7 @@ def phase5_textures():
         "block/sanctuary_altar_side": sanctuary_altar_tex("side"),
         "block/sanctuary_altar_bottom": sanctuary_altar_tex("bottom"),
         "item/lantern_heart": lantern_heart(),
+        "item/grimoire": grimoire(),
         "item/eternal_lantern": lantern_item("lumen", ("#a8742a", "#e8b84a", "#fff6c8")),
         "item/watcher_staff": watcher_staff(),
         "entity/hollow_warden/body": warden_body(),

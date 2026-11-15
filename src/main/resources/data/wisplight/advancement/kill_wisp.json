@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "id": "wisplight:wisp_dust"
+    },
+    "title": {
+      "translate": "advancements.wisplight.kill_wisp.title"
+    },
+    "description": {
+      "translate": "advancements.wisplight.kill_wisp.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "kill": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "wisplight:wisp"
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "kill"
+    ]
+  ],
+  "parent": "wisplight:root"
+}

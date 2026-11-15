@@ -1,0 +1,35 @@
+{
+  "display": {
+    "icon": {
+      "id": "wisplight:essence_emeraude"
+    },
+    "title": {
+      "translate": "advancements.wisplight.harvest.title"
+    },
+    "description": {
+      "translate": "advancements.wisplight.harvest.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "essence": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "#wisplight:essences"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "essence"
+    ]
+  ],
+  "parent": "wisplight:capture"
+}

@@ -415,6 +415,16 @@ def lang():
         "subtitles.wisplight.entity.hollow_warden.charge": "Warden gathers light",
         "subtitles.wisplight.entity.hollow_warden.burst": "Light burst",
     })
+    fr["item.wisplight.grimoire"] = "Grimoire des lueurs"
+    en["item.wisplight.grimoire"] = "Grimoire of Glimmers"
+    for i, (pf, pe) in enumerate(zip(PAGES_FR, PAGES_EN), start=1):
+        fr[f"book.wisplight.grimoire.page{i}"] = pf
+        en[f"book.wisplight.grimoire.page{i}"] = pe
+    for (aid, _p, _i, _f, _h, _c, tfr, dfr, ten, den) in ADV:
+        fr[f"advancements.wisplight.{aid}.title"] = tfr
+        fr[f"advancements.wisplight.{aid}.description"] = dfr
+        en[f"advancements.wisplight.{aid}.title"] = ten
+        en[f"advancements.wisplight.{aid}.description"] = den
     for v in VARIANTS:
         fr[f"block.wisplight.runestone_{v}"] = f"Pierre runique ({ESSENCE_FR[v]})"
         en[f"block.wisplight.runestone_{v}"] = f"Runestone of {ESSENCE_EN[v]}"
@@ -879,13 +889,111 @@ def phase5():
     return bricks_all, stairs, slab, wall
 
 
+# ---------------------------------------------------------------- phase 6 : grimoire et succès
+PAGES_FR = [
+    "§lGrimoire des lueurs§r\n\nCe que les feux follets m'ont appris, nuit après nuit.\n\n§8Lis-moi avant de partir à leur rencontre.",
+    "§lLes follets§r\n\nQuand la nuit tombe, ils errent : Azur dans les forêts et les plaines, Émeraude dans les marais, Givre dans les neiges, Braise dans le Nether.\n\nIls fuient l'arme et la course.",
+    "§lLa capture§r\n\nApproche-toi accroupi, un bocal vide en main (5 verres et une dalle de bois). Le follet se laisse enfermer.\n\nLe tuer ne donne qu'un peu de poussière… et de la malchance.",
+    "§lLe bocal§r\n\nUn follet en bocal produit une essence toutes les 5 minutes, deux fois plus vite dans son biome. Récolte-la avec une fiole.\n\nAccroupi, main vide : tu le libères.",
+    "§lLe lumen§r\n\nCe cristal luit dans les grottes, entre Y -48 et 32.\n\n4 éclats et 1 lingot d'or font un lingot de lumen : outils et armure entre le fer et le diamant.",
+    "§lL'autel d'infusion§r\n\nIl lui faut un follet en bocal à 3 blocs au plus.\n\nLingot + 2 essences : un charme.\nÉquipement en lumen + 2 essences identiques : une infusion.",
+    "§lLes infusions§r\n\n§bLumière§r : éclaire, révèle.\n§aVie§r : soigne, répare.\n§6Feu§r : brûle, fond les minerais.\n§fFroid§r : ralentit, gèle l'eau.\n\nUne seule infusion par objet.",
+    "§lLes Ombres§r\n\nDans le noir total naissent les Ombres. Elles chassent les follets et volent les essences.\n\nLe lumen les blesse deux fois plus. Leurs fragments forgent l'Armure du Veilleur.",
+    "§lLe sanctuaire§r\n\nLa Boussole des lueurs (boussole + 4 essences) mène au Sanctuaire oublié.\n\nCharge ses 4 pierres runiques, puis, la nuit, offre un follet en bocal à l'autel.",
+    "§lLe Veilleur Éteint§r\n\nDétruis ses orbes, méfie-toi des Ombres. Quand sa flamme rougit et enfle, cache-toi derrière un mur.\n\nSon cœur ravive toutes les lanternes.",
+]
+PAGES_EN = [
+    "§lGrimoire of Glimmers§r\n\nWhat the wisps taught me, night after night.\n\n§8Read me before you go looking for them.",
+    "§lThe wisps§r\n\nWhen night falls they wander: Azure in forests and plains, Emerald in swamps, Frost in the snow, Ember in the Nether.\n\nThey flee weapons and running.",
+    "§lCapture§r\n\nSneak up with an empty jar in hand (5 glass and a wooden slab). The wisp lets itself be caught.\n\nKilling it only gives a little dust… and bad luck.",
+    "§lThe jar§r\n\nA jarred wisp makes an essence every 5 minutes, twice as fast in its home biome. Collect it with a bottle.\n\nSneak with an empty hand to set it free.",
+    "§lLumen§r\n\nThis crystal glows in caves, between Y -48 and 32.\n\n4 shards and 1 gold ingot make a lumen ingot: tools and armor between iron and diamond.",
+    "§lThe infusion altar§r\n\nIt needs a jarred wisp within 3 blocks.\n\nIngot + 2 essences: a charm.\nLumen gear + 2 matching essences: an infusion.",
+    "§lInfusions§r\n\n§bLight§r: lights, reveals.\n§aLife§r: heals, mends.\n§6Fire§r: burns, smelts ores.\n§fFrost§r: slows, freezes water.\n\nOne infusion per item.",
+    "§lShades§r\n\nShades are born in total darkness. They hunt wisps and steal essences.\n\nLumen hurts them twice as much. Their fragments forge the Watcher armor.",
+    "§lThe sanctuary§r\n\nThe Compass of Glimmers (compass + 4 essences) leads to the Forgotten Sanctuary.\n\nCharge its 4 runestones, then at night offer a jarred wisp to the altar.",
+    "§lThe Hollow Warden§r\n\nDestroy its orbs, beware the Shades. When its flame turns red and swells, hide behind a wall.\n\nIts heart rekindles every lantern.",
+]
+
+ADV = [
+    # id, parent, icon, frame, hidden, criteria, fr title, fr desc, en title, en desc
+    ("root", None, "wisp_jar_azur", "task", False, {"code": {"trigger": "minecraft:impossible"}},
+     "Lueur dans la nuit", "Croiser un feu follet", "Glimmer in the Night", "Come across a wisp"),
+    ("kill_wisp", "root", "wisp_dust", "task", True,
+     {"kill": {"trigger": "minecraft:player_killed_entity", "conditions": {"entity": {"type": "wisplight:wisp"}}}},
+     "Pas si fort…", "Tuer un feu follet. Il ne t'avait rien fait.", "Not So Proud…", "Kill a wisp. It did nothing to you."),
+    ("capture", "root", "empty_jar", "task", False, {"jar": {"trigger": "minecraft:inventory_changed",
+                                                            "conditions": {"items": [{"items": "#wisplight:wisp_jars"}]}}},
+     "Doux comme un murmure", "Capturer un follet dans un bocal", "Soft as a Whisper", "Catch a wisp in a jar"),
+    ("harvest", "capture", "essence_emeraude", "task", False, {"essence": {"trigger": "minecraft:inventory_changed",
+                                                                          "conditions": {"items": [{"items": "#wisplight:essences"}]}}},
+     "Première récolte", "Récolter une essence", "First Harvest", "Collect an essence"),
+    ("first_infusion", "harvest", "infusion_altar", "task", False, {"code": {"trigger": "minecraft:impossible"}},
+     "Première infusion", "Terminer une infusion à l'autel", "First Infusion", "Complete an infusion at the altar"),
+    ("rainbow", "first_infusion", "charm_azur", "goal", False,
+     {f"charm_{v}": {"trigger": "minecraft:inventory_changed", "conditions": {"items": [{"items": f"wisplight:charm_{v}"}]}}
+      for v in VARIANTS},
+     "Arc-en-ciel", "Posséder les quatre charmes", "Rainbow", "Own all four charms"),
+    ("collector", "capture", "wisp_jar_givre", "goal", False,
+     {f"jar_{v}": {"trigger": "minecraft:inventory_changed", "conditions": {"items": [{"items": f"wisplight:wisp_jar_{v}"}]}}
+      for v in VARIANTS},
+     "Collectionneur", "Avoir en bocal les quatre variantes de follets", "Collector", "Jar all four kinds of wisps"),
+    ("lumen", "root", "lumen_shard", "task", False, {"shard": {"trigger": "minecraft:inventory_changed",
+                                                              "conditions": {"items": [{"items": "wisplight:lumen_shard"}]}}},
+     "La pierre qui brille", "Miner du lumen", "The Glowing Stone", "Mine some lumen"),
+    ("lumen_tool", "lumen", "lumen_pickaxe", "task", False,
+     {"tool": {"trigger": "minecraft:inventory_changed", "conditions": {"items": [{"items": [
+         "wisplight:lumen_sword", "wisplight:lumen_pickaxe", "wisplight:lumen_axe", "wisplight:lumen_shovel", "wisplight:lumen_hoe"]}]}}},
+     "Forgé de lumière", "Fabriquer un outil en lumen", "Forged of Light", "Craft a lumen tool"),
+    ("shade_hunter", "root", "shadow_fragment", "task", False,
+     {"kill": {"trigger": "minecraft:player_killed_entity", "conditions": {"entity": {"type": "wisplight:creeping_shade"}}}},
+     "Chasseur d'ombres", "Vaincre une Ombre rampante", "Shade Hunter", "Defeat a Creeping Shade"),
+    ("on_the_trail", "harvest", "sanctuary_compass", "task", False, {"code": {"trigger": "minecraft:impossible"}},
+     "Sur la piste", "Régler une Boussole des lueurs sur un sanctuaire", "On the Trail", "Point a Compass of Glimmers at a sanctuary"),
+    ("sanctuary", "on_the_trail", "sanctuary_bricks", "task", False,
+     {"enter": {"trigger": "minecraft:location", "conditions": {"player": {"location": {"structures": "wisplight:sanctuary"}}}}},
+     "Le sanctuaire oublié", "Entrer dans un Sanctuaire oublié", "The Forgotten Sanctuary", "Enter a Forgotten Sanctuary"),
+    ("the_ritual", "sanctuary", "runestone_braise", "task", False, {"code": {"trigger": "minecraft:impossible"}},
+     "Le rituel", "Lancer le rituel de l'autel du sanctuaire", "The Ritual", "Start the ritual at the sanctuary altar"),
+    ("rekindled", "the_ritual", "lantern_heart", "challenge", False,
+     {"kill": {"trigger": "minecraft:player_killed_entity", "conditions": {"entity": {"type": "wisplight:hollow_warden"}}}},
+     "La flamme ravivée", "Vaincre le Veilleur Éteint", "The Flame Rekindled", "Defeat the Hollow Warden"),
+    ("eternal_light", "rekindled", "eternal_lantern", "challenge", False,
+     {"lantern": {"trigger": "minecraft:inventory_changed", "conditions": {"items": [{"items": "wisplight:eternal_lantern"}]}}},
+     "Lumière éternelle", "Fabriquer la Lanterne éternelle", "Eternal Light", "Craft the Eternal Lantern"),
+]
+
+
+def phase6():
+    item_generated("grimoire")
+    shapeless("grimoire", ["minecraft:book", rid("lumen_shard")], rid("grimoire"), category="misc")
+    w(d(MOD, "loot_table", "rewards", "grimoire.json"), {
+        "type": "minecraft:advancement_reward",
+        "pools": [item_pool([entry(rid("grimoire"), 1)], 1)]})
+    tag(MOD, "item", "wisp_jars", [rid(f"wisp_jar_{v}") for v in VARIANTS])
+    for (aid, parent, icon, frame, hidden, criteria, *_r) in ADV:
+        display = {
+            "icon": {"id": rid(icon)},
+            "title": {"translate": f"advancements.wisplight.{aid}.title"},
+            "description": {"translate": f"advancements.wisplight.{aid}.description"},
+            "frame": frame, "show_toast": True, "announce_to_chat": True, "hidden": hidden,
+        }
+        obj = {"display": display, "criteria": criteria, "requirements": [[k] for k in criteria]}
+        if parent is None:
+            display["background"] = "wisplight:textures/block/sanctuary_bricks.png"
+            obj["rewards"] = {"loot": [rid("rewards/grimoire")]}
+        else:
+            obj["parent"] = rid(parent)
+        w(d(MOD, "advancement", aid + ".json"), obj)
+
+
 # ---------------------------------------------------------------- tout
 def main():
     for sub in ("blockstates", "models", "lang", "sounds.json"):
         p = a(sub)
         if os.path.isdir(p):
             shutil.rmtree(p)
-    for sub in ("loot_table", "recipe", "tags", "worldgen", "neoforge"):
+    for sub in ("loot_table", "recipe", "tags", "worldgen", "neoforge", "advancement"):
         p = d(MOD, sub)
         if os.path.isdir(p):
             shutil.rmtree(p)
@@ -966,6 +1074,7 @@ def main():
     phase3()
     phase4()
     bricks_all, stairs, slab, wall = phase5()
+    phase6()
     tag("minecraft", "block", "stairs", [rid(stairs)])
     tag("minecraft", "item", "stairs", [rid(stairs)])
     tag("minecraft", "block", "slabs", [rid(slab)])

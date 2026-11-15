@@ -1,0 +1,74 @@
+{
+  "display": {
+    "icon": {
+      "id": "wisplight:wisp_jar_givre"
+    },
+    "title": {
+      "translate": "advancements.wisplight.collector.title"
+    },
+    "description": {
+      "translate": "advancements.wisplight.collector.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "jar_azur": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "wisplight:wisp_jar_azur"
+          }
+        ]
+      }
+    },
+    "jar_emeraude": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "wisplight:wisp_jar_emeraude"
+          }
+        ]
+      }
+    },
+    "jar_braise": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "wisplight:wisp_jar_braise"
+          }
+        ]
+      }
+    },
+    "jar_givre": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "wisplight:wisp_jar_givre"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "jar_azur"
+    ],
+    [
+      "jar_emeraude"
+    ],
+    [
+      "jar_braise"
+    ],
+    [
+      "jar_givre"
+    ]
+  ],
+  "parent": "wisplight:capture"
+}

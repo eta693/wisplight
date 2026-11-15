@@ -1,0 +1,35 @@
+{
+  "display": {
+    "icon": {
+      "id": "wisplight:eternal_lantern"
+    },
+    "title": {
+      "translate": "advancements.wisplight.eternal_light.title"
+    },
+    "description": {
+      "translate": "advancements.wisplight.eternal_light.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "lantern": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "wisplight:eternal_lantern"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "lantern"
+    ]
+  ],
+  "parent": "wisplight:rekindled"
+}
