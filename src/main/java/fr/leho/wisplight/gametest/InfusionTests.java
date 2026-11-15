@@ -173,11 +173,12 @@ public final class InfusionTests {
     public static void plainOrbLeavesGlow(GameTestHelper helper) {
         Player player = helper.makeMockPlayer(GameType.SURVIVAL);
         WispOrbEntity orb = new WispOrbEntity(helper.getLevel(), player, null);
-        Vec3 start = Vec3.atCenterOf(helper.absolutePos(new BlockPos(2, 3, 2)));
+        // Le sol du modèle est en y = 1 (coordonnées relatives) : la lueur apparaît juste au-dessus, en y = 2.
+        Vec3 start = Vec3.atCenterOf(helper.absolutePos(new BlockPos(2, 4, 2)));
         orb.setPos(start.x, start.y, start.z);
         orb.setDeltaMovement(0, -0.8, 0);
         helper.getLevel().addFreshEntity(orb);
-        helper.succeedWhen(() -> helper.assertBlockPresent(ModBlocks.LINGERING_GLOW.get(), new BlockPos(2, 1, 2)));
+        helper.succeedWhen(() -> helper.assertBlockPresent(ModBlocks.LINGERING_GLOW.get(), new BlockPos(2, 2, 2)));
     }
 
     /** La lanterne d'appel attire les follets proches la nuit. */
