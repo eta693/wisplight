@@ -30,6 +30,20 @@ neoForge {
             type = 'gameTestServer'
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
         }
+        // Visite automatique avec captures d'écran (CI uniquement)
+        tourPregen {
+            server()
+            gameDirectory = project.file('run-tour')
+            programArgument '--nogui'
+            systemProperty 'wisplight.tour', 'true'
+            systemProperty 'wisplight.tour.pregen', 'true'
+        }
+        tourClient {
+            client()
+            gameDirectory = project.file('run-tour-client')
+            programArguments.addAll '--quickPlaySingleplayer', 'tour', '--width', '1280', '--height', '720'
+            systemProperty 'wisplight.tour', 'true'
+        }
         configureEach {
             systemProperty 'forge.logging.markers', 'REGISTRIES'
             logLevel = org.slf4j.event.Level.INFO

@@ -15,3 +15,5 @@ bin/
 # Outils
 tools/__pycache__/
 *.pyc
+run-tour/
+run-tour-client/
