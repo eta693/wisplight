@@ -2,6 +2,8 @@ package fr.leho.wisplight.registry;
 
 import fr.leho.wisplight.Wisplight;
 import fr.leho.wisplight.entity.CreepingShadeEntity;
+import fr.leho.wisplight.entity.HollowWardenEntity;
+import fr.leho.wisplight.entity.WardenOrbEntity;
 import fr.leho.wisplight.entity.WispEntity;
 import fr.leho.wisplight.entity.WispOrbEntity;
 import net.minecraft.core.registries.Registries;
@@ -33,6 +35,21 @@ public final class ModEntities {
                     .eyeHeight(1.85F)
                     .clientTrackingRange(8)
                     .build("creeping_shade"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<HollowWardenEntity>> HOLLOW_WARDEN =
+            ENTITIES.register("hollow_warden", () -> EntityType.Builder.<HollowWardenEntity>of(HollowWardenEntity::new, MobCategory.MONSTER)
+                    .sized(1.4F, 3.0F)
+                    .eyeHeight(2.4F)
+                    .fireImmune()
+                    .clientTrackingRange(10)
+                    .build("hollow_warden"));
+
+    public static final DeferredHolder<EntityType<?>, EntityType<WardenOrbEntity>> WARDEN_ORB =
+            ENTITIES.register("warden_orb", () -> EntityType.Builder.<WardenOrbEntity>of(WardenOrbEntity::new, MobCategory.MISC)
+                    .sized(0.5F, 0.5F)
+                    .clientTrackingRange(6)
+                    .updateInterval(2)
+                    .build("warden_orb"));
 
     private ModEntities() {}
 }

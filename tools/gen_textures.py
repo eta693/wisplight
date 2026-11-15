@@ -292,7 +292,7 @@ RUNES = {
     "givre": ["...xx...", "x..xx..x", ".x.xx.x.", "..xxxx..", "xxxxxxxx", "..xxxx..", ".x.xx.x.", "x..xx..x"],
 }
 
-def runestone(ramp, seed=7):
+def runestone(ramp, seed=7, glow=1):
     rnd = random.Random(seed)
     img = Image.new("RGBA", (16, 16))
     for y in range(16):
@@ -304,11 +304,12 @@ def runestone(ramp, seed=7):
     for y, row in enumerate(RUNES[ramp]):
         for x, ch in enumerate(row):
             if ch == "x":
-                img.putpixel((x + 4, y + 4), hx(r[4]))
+                core = [r[1], r[3], r[5]][glow]
+                img.putpixel((x + 4, y + 4), hx(core))
                 for dx, dy in ((1, 0), (0, 1)):
                     p = (x + 4 + dx, y + 4 + dy)
-                    if img.getpixel(p)[:3] != hx(r[4])[:3]:
-                        img.putpixel(p, hx(r[1]))
+                    if img.getpixel(p)[:3] != hx(core)[:3]:
+                        img.putpixel(p, hx([r[0], r[1], r[3]][glow]))
     return img
 
 SHADE = [
@@ -1049,6 +1050,214 @@ def phase4_textures():
         "models/armor/watcher_layer_2": armor_layer(2, WATCHER),
     }
 
+
+# ======================================================================
+# Phase 5 : sanctuaire, boussole, Veilleur Éteint
+# ======================================================================
+def cracked(img, seed=8):
+    rnd = random.Random(seed)
+    out = img.copy()
+    x, y = rnd.randrange(2, 6), 0
+    while y < 16:
+        out.putpixel((x % 16, y), hx("#2a2d36"))
+        y += 1
+        x += rnd.choice([-1, 0, 1, 1])
+    for _ in range(5):
+        out.putpixel((rnd.randrange(16), rnd.randrange(16)), hx("#3d414b"))
+    return out
+
+
+def sanctuary_altar_tex(face):
+    rnd = random.Random({"top": 41, "side": 42, "bottom": 43}[face])
+    img = Image.new("RGBA", (16, 16))
+    for y in range(16):
+        for x in range(16):
+            c = rnd.choice(["#2c2f38", "#30333d", "#363a45"])
+            if x in (0, 15) or y in (0, 15):
+                c = LUMEN["s"] if face != "bottom" else "#24262d"
+            img.putpixel((x, y), hx(c))
+    if face == "top":
+        for y in range(16):
+            for x in range(16):
+                d = math.hypot(x + 0.5 - 8, y + 0.5 - 8)
+                if 4.6 < d < 5.6:
+                    img.putpixel((x, y), hx(LUMEN["m"]))
+        for (x, y), v in {(8, 2): "azur", (13, 8): "emeraude", (8, 13): "braise", (2, 8): "givre"}.items():
+            img.putpixel((x, y), hx(RAMPS[v][4]))
+            img.putpixel((x - 1, y), hx(RAMPS[v][3]))
+        for (x, y) in [(7, 7), (8, 7), (7, 8), (8, 8)]:
+            img.putpixel((x, y), hx("#141a26"))
+    elif face == "side":
+        for x in range(2, 14):
+            img.putpixel((x, 3), hx(LUMEN["m"]))
+            img.putpixel((x, 12), hx(LUMEN["s"]))
+        for (x, y) in [(5, 7), (6, 8), (7, 7), (9, 8), (10, 7), (11, 8)]:
+            img.putpixel((x, y), hx(LUMEN["l"]))
+    return img
+
+
+def compass_frame(f):
+    img = Image.new("RGBA", (16, 16), T)
+    for y in range(16):
+        for x in range(16):
+            d = math.hypot(x + 0.5 - 8, y + 0.5 - 8)
+            if d <= 7.4:
+                img.putpixel((x, y), hx(LUMEN["s"] if d > 6.3 else LUMEN["m"] if d > 5.6 else "#1b2142"))
+    angle = math.radians((f / 32.0 - 0.5) * 360.0)
+    dx, dy = math.sin(angle), -math.cos(angle)
+    for i in range(0, 50):
+        t_ = i / 10.0
+        if t_ <= 4.6:
+            px_, py_ = 7.5 + dx * t_, 7.5 + dy * t_
+            img.putpixel((int(round(px_)), int(round(py_))), hx(RAMPS["azur"][4] if t_ > 2.5 else RAMPS["azur"][3]))
+        if t_ <= 2.6:
+            px_, py_ = 7.5 - dx * t_, 7.5 - dy * t_
+            img.putpixel((int(round(px_)), int(round(py_))), hx("#8a90a8"))
+    img.putpixel((7, 7), hx(LUMEN["h"]))
+    img.putpixel((8, 8), hx(LUMEN["h"]))
+    return img
+
+
+HEART = [
+    "................",
+    "................",
+    "...ooo....ooo...",
+    "..o445o..o554o..",
+    ".o45554oo45554o.",
+    ".o45555445555So.",
+    ".o44555555554So.",
+    ".o34455555543So.",
+    "..o344555443So..",
+    "...o3445543So...",
+    "....o34443So....",
+    ".....o343So.....",
+    "......o3So......",
+    ".......oo.......",
+    "................",
+    "................",
+]
+
+
+def lantern_heart():
+    r = RAMPS["braise"]
+    return grid(HEART, {"o": "#3d1004", "3": r[2], "4": r[3], "5": r[4], "S": r[1]})
+
+
+def watcher_staff():
+    img = grid(STAFF, {"o": "#0b0810", "w": "#3b2a55", "g": "#ffe27a"})
+    pal = [hx(c) for c in RAMPS["braise"]]
+    for y in range(0, 7):
+        for x in range(8, 16):
+            d = math.hypot(x + .5 - 12, y + .5 - 3.5)
+            if d < 3.2:
+                v = 1 - d / 3.2
+                i = 5 if v > .7 else 4 if v > .5 else 3 if v > .3 else 2
+                if d > 2.5: i = 1
+                img.putpixel((x, y), pal[i])
+    for p in [(9, 5), (14, 5), (9, 1), (14, 1), (11, 0), (12, 0)]:
+        img.putpixel(p, hx("#ffe27a"))
+    return img
+
+
+def box_regions(u, v, w, h, d):
+    return {"top": (u + d, v, w, d), "bottom": (u + d + w, v, w, d), "right": (u, v + d, d, h),
+            "front": (u + d, v + d, w, h), "left": (u + d + w, v + d, d, h), "back": (u + 2 * d + w, v + d, w, h)}
+
+
+def warden_body():
+    img = Image.new("RGBA", (128, 128), T)
+    rnd = random.Random(77)
+    iron = ["#2b2d33", "#33363d", "#3a3d45"]
+
+    def paint(box, fn):
+        for face, (x0, y0, w, h) in box_regions(*box).items():
+            for y in range(h):
+                for x in range(w):
+                    c = fn(x, y, w, h, face)
+                    if c:
+                        img.putpixel((x0 + x, y0 + y), hx(c))
+
+    def metal(trim=None):
+        def fn(x, y, w, h, face):
+            if trim and (y == 0 or y == h - 1) and face not in ("top", "bottom"):
+                return trim
+            if face in ("top", "bottom") and (x in (0, w - 1) or y in (0, h - 1)):
+                return trim or "#44474f"
+            if (x * 7 + y * 3) % 11 == 0:
+                return "#62656e"
+            return rnd.choice(iron)
+        return fn
+
+    paint((0, 0, 20, 4, 20), metal("#a8742a"))          # socle
+    paint((0, 24, 3, 32, 3), lambda x, y, w, h, f: "#44474f" if y % 8 == 0 else rnd.choice(iron))  # barreaux
+    paint((0, 64, 24, 4, 24), metal("#e8b84a"))         # toit
+    paint((0, 92, 14, 4, 14), metal("#a8742a"))         # toit supérieur
+    paint((60, 92, 4, 6, 2), lambda x, y, w, h, f: "#62656e" if (x + y) % 2 else "#44474f")  # anneau
+    paint((60, 24, 2, 20, 2), lambda x, y, w, h, f: "#62656e" if y % 3 else "#2b2d33")      # chaînes
+    return img
+
+
+def warden_flame(ramp, eyes=True):
+    img = Image.new("RGBA", (128, 128), T)
+    pal = RAMPS[ramp]
+    for face, (x0, y0, w, h) in box_regions(16, 24, 10, 18, 10).items():
+        for y in range(h):
+            for x in range(w):
+                if face in ("top", "bottom"):
+                    d = math.hypot(x - w / 2 + 0.5, y - h / 2 + 0.5) / (w / 2)
+                    i = 5 if d < 0.4 else 4 if d < 0.8 else 3
+                else:
+                    cx = abs(x - w / 2 + 0.5) / (w / 2)
+                    fy = y / h
+                    v = (1 - cx) * (0.4 + fy * 0.8)
+                    i = 5 if v > 0.75 else 4 if v > 0.5 else 3 if v > 0.28 else 2 if v > 0.12 else 1
+                img.putpixel((x0 + x, y0 + y), hx(pal[i]))
+        if eyes and face == "front":
+            for (ex, ey) in [(2, 8), (3, 8), (6, 8), (7, 8), (2, 9), (7, 9)]:
+                img.putpixel((x0 + ex, y0 + ey), (0, 0, 0, 255))
+    return img
+
+
+def warden_orb():
+    img = orb("givre")
+    pal = ["#1a1424", "#3b2a55", "#6a4f9a", "#b9a6e8", "#e3dcff", "#ffffff"]
+    out = Image.new("RGBA", (16, 16), T)
+    for y in range(16):
+        for x in range(16):
+            d = math.hypot(x + 0.5 - 8, y + 0.5 - 8)
+            if d > 6.5:
+                continue
+            v = 1 - d / 6.5
+            i = 5 if v > .75 else 4 if v > .55 else 3 if v > .35 else 2 if v > .15 else 1
+            out.putpixel((x, y), hx(pal[i]))
+    return out
+
+
+def phase5_textures():
+    bricks_img = bricks()
+    out = {
+        "block/sanctuary_bricks": bricks_img,
+        "block/cracked_sanctuary_bricks": cracked(bricks_img),
+        "block/sanctuary_altar_top": sanctuary_altar_tex("top"),
+        "block/sanctuary_altar_side": sanctuary_altar_tex("side"),
+        "block/sanctuary_altar_bottom": sanctuary_altar_tex("bottom"),
+        "item/lantern_heart": lantern_heart(),
+        "item/eternal_lantern": lantern_item("lumen", ("#a8742a", "#e8b84a", "#fff6c8")),
+        "item/watcher_staff": watcher_staff(),
+        "entity/hollow_warden/body": warden_body(),
+        "entity/hollow_warden/flame_1": warden_flame("givre"),
+        "entity/hollow_warden/flame_2": warden_flame("azur"),
+        "entity/hollow_warden/flame_3": warden_flame("braise"),
+        "entity/warden_orb": warden_orb(),
+    }
+    for v in ("azur", "emeraude", "braise", "givre"):
+        out[f"block/runestone_{v}"] = runestone(v, glow=0)
+        out[f"block/runestone_{v}_charged"] = runestone(v, glow=1)
+        out[f"block/runestone_{v}_lit"] = runestone(v, glow=2)
+    for f in range(32):
+        out[f"item/sanctuary_compass_{f:02d}"] = compass_frame(f)
+    return out
+
 # ======================================================================
 # Écriture
 # ======================================================================
@@ -1082,6 +1291,7 @@ if __name__ == "__main__":
         out[f"item/essence_{r}"] = vial(r)
     out.update(phase3_textures())
     out.update(phase4_textures())
+    out.update(phase5_textures())
     import shutil
     if os.path.isdir(ROOT):
         shutil.rmtree(ROOT)
@@ -1090,7 +1300,8 @@ if __name__ == "__main__":
         os.makedirs(os.path.dirname(path), exist_ok=True)
         img.save(path)
     # planche contact (hors resources) pour validation visuelle
-    sheet_items = [k for k in out if not k.startswith("models/") and not k.startswith("gui/") and not k.startswith("entity/creeping")]
+    sheet_items = [k for k in out if not k.startswith(("models/", "gui/", "entity/creeping", "entity/hollow"))
+                   and "compass_" not in k[:-2]]
     S = 64
     sheet = Image.new("RGBA", (S * 8 + 16, S * ((len(sheet_items) + 7) // 8) + 16), hx("#20242e"))
     for i, n in enumerate(sheet_items):
@@ -1100,5 +1311,8 @@ if __name__ == "__main__":
     for k in ("models/armor/lumen_layer_1", "models/armor/lumen_layer_2"):
         out[k].resize((256, 128), Image.NEAREST).save("build/" + k.split("/")[-1] + "_preview.png")
     out["entity/creeping_shade"].resize((256, 256), Image.NEAREST).save("build/shade_preview.png")
+    wb = out["entity/hollow_warden/body"].copy()
+    wb.alpha_composite(out["entity/hollow_warden/flame_3"])
+    wb.resize((384, 384), Image.NEAREST).save("build/warden_preview.png")
     out["gui/infusion_altar"].crop((0, 0, 230, 166)).resize((690, 498), Image.NEAREST).save("build/gui_preview.png")
     print(len(out), "textures écrites")

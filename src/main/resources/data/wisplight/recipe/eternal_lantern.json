@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "LSL",
+    "SHS",
+    "LSL"
+  ],
+  "key": {
+    "L": {
+      "item": "wisplight:lumen_ingot"
+    },
+    "S": {
+      "item": "wisplight:lumen_shard"
+    },
+    "H": {
+      "item": "wisplight:lantern_heart"
+    }
+  },
+  "result": {
+    "id": "wisplight:eternal_lantern",
+    "count": 1
+  }
+}

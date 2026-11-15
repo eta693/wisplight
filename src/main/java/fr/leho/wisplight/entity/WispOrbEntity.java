@@ -34,6 +34,7 @@ public class WispOrbEntity extends ThrowableProjectile {
     public static final int PLAIN_GLOW_TICKS = 600;
     public static final int LIGHT_GLOW_TICKS = 2400;
     public static final float BASE_DAMAGE = 4.0F;
+    private float damageBonus;
 
     public WispOrbEntity(EntityType<? extends WispOrbEntity> type, Level level) {
         super(type, level);
@@ -57,6 +58,10 @@ public class WispOrbEntity extends ThrowableProjectile {
 
     public void setOrbVariant(@Nullable WispVariant variant) {
         entityData.set(DATA_VARIANT, variant == null ? -1 : variant.ordinal());
+    }
+
+    public void setDamageBonus(float bonus) {
+        this.damageBonus = bonus;
     }
 
     @Override
@@ -83,10 +88,10 @@ public class WispOrbEntity extends ThrowableProjectile {
         WispVariant v = getOrbVariant();
         Entity owner = getOwner();
         if (v == WispVariant.EMERAUDE && target instanceof LivingEntity living && !(target instanceof Enemy)) {
-            living.heal(4.0F);
+            living.heal(4.0F + damageBonus / 2.0F);
             return;
         }
-        float damage = v == WispVariant.BRAISE ? BASE_DAMAGE + 1.0F : BASE_DAMAGE;
+        float damage = (v == WispVariant.BRAISE ? BASE_DAMAGE + 1.0F : BASE_DAMAGE) + damageBonus;
         target.hurt(damageSources().thrown(this, owner), damage);
         if (target instanceof LivingEntity living) {
             if (v == WispVariant.AZUR || v == null) {
@@ -133,11 +138,13 @@ public class WispOrbEntity extends ThrowableProjectile {
     protected void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putInt("OrbVariant", entityData.get(DATA_VARIANT));
+        tag.putFloat("DamageBonus", damageBonus);
     }
 
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         entityData.set(DATA_VARIANT, tag.getInt("OrbVariant"));
+        damageBonus = tag.getFloat("DamageBonus");
     }
 }

@@ -341,6 +341,83 @@ def lang():
         "subtitles.wisplight.entity.creeping_shade.death": "Shade dissipates",
         "subtitles.wisplight.entity.creeping_shade.steal": "Shade steals an essence",
     })
+    fr.update({
+        "block.wisplight.sanctuary_bricks": "Briques du sanctuaire",
+        "block.wisplight.cracked_sanctuary_bricks": "Briques du sanctuaire fissurées",
+        "block.wisplight.sanctuary_brick_stairs": "Escalier en briques du sanctuaire",
+        "block.wisplight.sanctuary_brick_slab": "Dalle en briques du sanctuaire",
+        "block.wisplight.sanctuary_brick_wall": "Muret en briques du sanctuaire",
+        "block.wisplight.sanctuary_altar": "Autel du sanctuaire",
+        "item.wisplight.sanctuary_compass": "Boussole des lueurs",
+        "item.wisplight.lantern_heart": "Cœur de lanterne",
+        "item.wisplight.eternal_lantern": "Lanterne éternelle",
+        "item.wisplight.watcher_staff": "Bâton du Veilleur",
+        "item.wisplight.hollow_warden_spawn_egg": "Œuf d'apparition du Veilleur Éteint",
+        "entity.wisplight.hollow_warden": "Le Veilleur Éteint",
+        "entity.wisplight.warden_orb": "Orbe du Veilleur",
+        "tooltip.wisplight.compass": "Clic droit : cherche le Sanctuaire oublié le plus proche",
+        "tooltip.wisplight.eternal_lantern": "Éclaire autour de toi quand tu la tiens en main",
+        "message.wisplight.compass.none": "Aucun sanctuaire ne répond à l'appel…",
+        "message.wisplight.compass.found": "Un sanctuaire se trouve à ~%s blocs, vers le %s",
+        "message.wisplight.ritual.night_only": "Le rituel ne peut s'accomplir que la nuit",
+        "message.wisplight.ritual.missing_runes": "Runes chargées : %s / %s. Charge chaque pierre runique avec son essence.",
+        "message.wisplight.ritual.already_awake": "Le Veilleur est déjà éveillé",
+        "message.wisplight.ritual.awakened": "Le Veilleur Éteint s'éveille…",
+        "message.wisplight.warden.defeated": "La flamme est ravivée. Tes follets brillent plus fort que jamais.",
+        "direction.wisplight.n": "nord", "direction.wisplight.ne": "nord-est", "direction.wisplight.e": "est",
+        "direction.wisplight.se": "sud-est", "direction.wisplight.s": "sud", "direction.wisplight.sw": "sud-ouest",
+        "direction.wisplight.w": "ouest", "direction.wisplight.nw": "nord-ouest",
+        "subtitles.wisplight.block.runestone.charge": "Une rune s'éveille",
+        "subtitles.wisplight.block.sanctuary_altar.ritual": "Le rituel commence",
+        "subtitles.wisplight.item.sanctuary_compass.locate": "La boussole s'oriente",
+        "subtitles.wisplight.entity.hollow_warden.ambient": "Le Veilleur gronde",
+        "subtitles.wisplight.entity.hollow_warden.hurt": "Le Veilleur est touché",
+        "subtitles.wisplight.entity.hollow_warden.death": "Le Veilleur s'effondre",
+        "subtitles.wisplight.entity.hollow_warden.phase": "La flamme du Veilleur change",
+        "subtitles.wisplight.entity.hollow_warden.slam": "Coup de chaîne",
+        "subtitles.wisplight.entity.hollow_warden.charge": "Le Veilleur rassemble sa lumière",
+        "subtitles.wisplight.entity.hollow_warden.burst": "Explosion de lumière",
+    })
+    en.update({
+        "block.wisplight.sanctuary_bricks": "Sanctuary Bricks",
+        "block.wisplight.cracked_sanctuary_bricks": "Cracked Sanctuary Bricks",
+        "block.wisplight.sanctuary_brick_stairs": "Sanctuary Brick Stairs",
+        "block.wisplight.sanctuary_brick_slab": "Sanctuary Brick Slab",
+        "block.wisplight.sanctuary_brick_wall": "Sanctuary Brick Wall",
+        "block.wisplight.sanctuary_altar": "Sanctuary Altar",
+        "item.wisplight.sanctuary_compass": "Compass of Glimmers",
+        "item.wisplight.lantern_heart": "Lantern Heart",
+        "item.wisplight.eternal_lantern": "Eternal Lantern",
+        "item.wisplight.watcher_staff": "Watcher's Staff",
+        "item.wisplight.hollow_warden_spawn_egg": "Hollow Warden Spawn Egg",
+        "entity.wisplight.hollow_warden": "The Hollow Warden",
+        "entity.wisplight.warden_orb": "Warden Orb",
+        "tooltip.wisplight.compass": "Right-click: seek the nearest Forgotten Sanctuary",
+        "tooltip.wisplight.eternal_lantern": "Lights up your surroundings while held",
+        "message.wisplight.compass.none": "No sanctuary answers the call…",
+        "message.wisplight.compass.found": "A sanctuary lies ~%s blocks away, to the %s",
+        "message.wisplight.ritual.night_only": "The ritual can only be performed at night",
+        "message.wisplight.ritual.missing_runes": "Charged runes: %s / %s. Charge each runestone with its essence.",
+        "message.wisplight.ritual.already_awake": "The Warden is already awake",
+        "message.wisplight.ritual.awakened": "The Hollow Warden awakens…",
+        "message.wisplight.warden.defeated": "The flame is rekindled. Your wisps shine brighter than ever.",
+        "direction.wisplight.n": "north", "direction.wisplight.ne": "north-east", "direction.wisplight.e": "east",
+        "direction.wisplight.se": "south-east", "direction.wisplight.s": "south", "direction.wisplight.sw": "south-west",
+        "direction.wisplight.w": "west", "direction.wisplight.nw": "north-west",
+        "subtitles.wisplight.block.runestone.charge": "Rune awakens",
+        "subtitles.wisplight.block.sanctuary_altar.ritual": "Ritual begins",
+        "subtitles.wisplight.item.sanctuary_compass.locate": "Compass aligns",
+        "subtitles.wisplight.entity.hollow_warden.ambient": "Warden rumbles",
+        "subtitles.wisplight.entity.hollow_warden.hurt": "Warden hurts",
+        "subtitles.wisplight.entity.hollow_warden.death": "Warden collapses",
+        "subtitles.wisplight.entity.hollow_warden.phase": "Warden's flame shifts",
+        "subtitles.wisplight.entity.hollow_warden.slam": "Chain slam",
+        "subtitles.wisplight.entity.hollow_warden.charge": "Warden gathers light",
+        "subtitles.wisplight.entity.hollow_warden.burst": "Light burst",
+    })
+    for v in VARIANTS:
+        fr[f"block.wisplight.runestone_{v}"] = f"Pierre runique ({ESSENCE_FR[v]})"
+        en[f"block.wisplight.runestone_{v}"] = f"Runestone of {ESSENCE_EN[v]}"
     for v in VARIANTS:
         fr[f"block.wisplight.lumen_lantern_{v}"] = f"Lanterne de lumen {VARIANT_FR[v].lower()}"
         en[f"block.wisplight.lumen_lantern_{v}"] = f"{VARIANT_EN[v]} Lumen Lantern"
@@ -372,6 +449,16 @@ SOUNDS = {
     "entity.creeping_shade.hurt": ["shade/hurt"],
     "entity.creeping_shade.death": ["shade/death"],
     "entity.creeping_shade.steal": ["shade/steal"],
+    "block.runestone.charge": ["sanctuary/rune_charge"],
+    "block.sanctuary_altar.ritual": ["sanctuary/ritual"],
+    "item.sanctuary_compass.locate": ["sanctuary/compass"],
+    "entity.hollow_warden.ambient": ["warden/ambient1", "warden/ambient2"],
+    "entity.hollow_warden.hurt": ["warden/hurt"],
+    "entity.hollow_warden.death": ["warden/death"],
+    "entity.hollow_warden.phase": ["warden/phase"],
+    "entity.hollow_warden.slam": ["warden/slam"],
+    "entity.hollow_warden.charge": ["warden/charge"],
+    "entity.hollow_warden.burst": ["warden/burst"],
 }
 
 
@@ -586,6 +673,212 @@ def phase4():
               rid("reinforced_jar"))
 
 
+# ---------------------------------------------------------------- phase 5
+def stairs_slab_wall(base, tex):
+    t = rid("block/" + tex)
+    stairs, slab, wall = base + "_stairs", base + "_slab", base + "_wall"
+    # escalier
+    for kind, parent in (("", "stairs"), ("_inner", "inner_stairs"), ("_outer", "outer_stairs")):
+        w(a("models", "block", stairs + kind + ".json"),
+          {"parent": "minecraft:block/" + parent, "textures": {"bottom": t, "top": t, "side": t}})
+    base_rot = {"east": 0, "south": 90, "west": 180, "north": 270}
+    variants = {}
+    for facing, rot in base_rot.items():
+        for half in ("bottom", "top"):
+            for shape in ("straight", "inner_left", "inner_right", "outer_left", "outer_right"):
+                model = stairs + ("_inner" if shape.startswith("inner") else "_outer" if shape.startswith("outer") else "")
+                extra = 0
+                if half == "bottom" and shape in ("inner_left", "outer_left"):
+                    extra = 270
+                if half == "top" and shape in ("inner_right", "outer_right"):
+                    extra = 90
+                y = (rot + extra) % 360
+                v = {"model": rid("block/" + model)}
+                if half == "top":
+                    v["x"] = 180
+                if y:
+                    v["y"] = y
+                if "x" in v or "y" in v:
+                    v["uvlock"] = True
+                variants[f"facing={facing},half={half},shape={shape}"] = v
+    w(a("blockstates", stairs + ".json"), {"variants": variants})
+    w(a("models", "item", stairs + ".json"), {"parent": rid("block/" + stairs)})
+    loot_self(stairs)
+    # dalle
+    w(a("models", "block", slab + ".json"), {"parent": "minecraft:block/slab", "textures": {"bottom": t, "top": t, "side": t}})
+    w(a("models", "block", slab + "_top.json"), {"parent": "minecraft:block/slab_top", "textures": {"bottom": t, "top": t, "side": t}})
+    w(a("blockstates", slab + ".json"), {"variants": {
+        "type=bottom": {"model": rid("block/" + slab)},
+        "type=top": {"model": rid("block/" + slab + "_top")},
+        "type=double": {"model": rid("block/" + tex)}}})
+    w(a("models", "item", slab + ".json"), {"parent": rid("block/" + slab)})
+    w(d(MOD, "loot_table", "blocks", slab + ".json"), {
+        "type": "minecraft:block",
+        "pools": [{"rolls": 1, "bonus_rolls": 0, "entries": [{"type": "minecraft:item", "name": rid(slab), "functions": [
+            {"function": "minecraft:set_count", "count": 2, "add": False, "conditions": [
+                {"condition": "minecraft:block_state_property", "block": rid(slab), "properties": {"type": "double"}}]},
+            {"function": "minecraft:explosion_decay"}]}]}],
+        "random_sequence": rid("blocks/" + slab)})
+    # muret
+    for kind, parent in (("_post", "template_wall_post"), ("_side", "template_wall_side"), ("_side_tall", "template_wall_side_tall")):
+        w(a("models", "block", wall + kind + ".json"), {"parent": "minecraft:block/" + parent, "textures": {"wall": t}})
+    w(a("models", "block", wall + "_inventory.json"), {"parent": "minecraft:block/wall_inventory", "textures": {"wall": t}})
+    multipart = [{"when": {"up": "true"}, "apply": {"model": rid("block/" + wall + "_post")}}]
+    for side, rot in (("north", 0), ("east", 90), ("south", 180), ("west", 270)):
+        for height, suffix in (("low", "_side"), ("tall", "_side_tall")):
+            apply = {"model": rid("block/" + wall + suffix), "uvlock": True}
+            if rot:
+                apply["y"] = rot
+            multipart.append({"when": {side: height}, "apply": apply})
+    w(a("blockstates", wall + ".json"), {"multipart": multipart})
+    w(a("models", "item", wall + ".json"), {"parent": rid("block/" + wall + "_inventory")})
+    loot_self(wall)
+    return stairs, slab, wall
+
+
+def stonecutting(name, ingredient, result, count=1):
+    w(d(MOD, "recipe", name + ".json"), {"type": "minecraft:stonecutting", "ingredient": ing(ingredient),
+                                         "result": {"id": result, "count": count}})
+
+
+def item_pool(entries, rolls):
+    return {"rolls": rolls, "bonus_rolls": 0, "entries": entries}
+
+
+def entry(item, weight, lo=1, hi=1):
+    e = {"type": "minecraft:item", "name": item, "weight": weight}
+    if (lo, hi) != (1, 1):
+        e["functions"] = [{"function": "minecraft:set_count", "count": {"type": "minecraft:uniform", "min": lo, "max": hi}}]
+    return e
+
+
+def phase5():
+    cube_block("sanctuary_bricks")
+    cube_block("cracked_sanctuary_bricks")
+    loot_self("sanctuary_bricks")
+    loot_self("cracked_sanctuary_bricks")
+    stairs, slab, wall = stairs_slab_wall("sanctuary_brick", "sanctuary_bricks")
+    for v in VARIANTS:
+        name = f"runestone_{v}"
+        for suffix in ("", "_charged", "_lit"):
+            w(a("models", "block", name + suffix + ".json"),
+              {"parent": "minecraft:block/cube_all", "textures": {"all": rid(f"block/{name}{suffix}")}})
+        w(a("blockstates", name + ".json"), {"variants": {
+            "charged=false,lit=false": {"model": rid(f"block/{name}")},
+            "charged=true,lit=false": {"model": rid(f"block/{name}_charged")},
+            "charged=false,lit=true": {"model": rid(f"block/{name}_lit")},
+            "charged=true,lit=true": {"model": rid(f"block/{name}_lit")}}})
+        w(a("models", "item", name + ".json"), {"parent": rid(f"block/{name}")})
+        loot_self(name)
+        shaped(name, [" B ", "BEB", " B "], {"B": rid("sanctuary_bricks"), "E": rid(f"essence_{v}")}, rid(name), 4, "building")
+    w(a("models", "block", "sanctuary_altar.json"), {"parent": "minecraft:block/cube_bottom_top", "textures": {
+        "top": rid("block/sanctuary_altar_top"), "side": rid("block/sanctuary_altar_side"),
+        "bottom": rid("block/sanctuary_altar_bottom")}})
+    w(a("blockstates", "sanctuary_altar.json"), {"variants": {"": {"model": rid("block/sanctuary_altar")}}})
+    w(a("models", "item", "sanctuary_altar.json"), {"parent": rid("block/sanctuary_altar")})
+
+    # Boussole : 32 images, surcharges sur la propriété « angle »
+    for f in range(32):
+        w(a("models", "item", f"sanctuary_compass_{f:02d}.json"),
+          {"parent": "minecraft:item/generated", "textures": {"layer0": rid(f"item/sanctuary_compass_{f:02d}")}})
+    overrides = [{"predicate": {"angle": round(max(0.0, (f - 0.5) / 32.0), 6)}, "model": rid(f"item/sanctuary_compass_{f:02d}")}
+                 for f in range(32)]
+    overrides.append({"predicate": {"angle": round(31.5 / 32.0, 6)}, "model": rid("item/sanctuary_compass_00")})
+    w(a("models", "item", "sanctuary_compass.json"), {
+        "parent": "minecraft:item/generated", "textures": {"layer0": rid("item/sanctuary_compass_16")}, "overrides": overrides})
+
+    for it in ("lantern_heart", "eternal_lantern"):
+        item_generated(it)
+    item_generated("watcher_staff", parent="minecraft:item/handheld")
+    w(a("models", "item", "hollow_warden_spawn_egg.json"), {"parent": "minecraft:item/template_spawn_egg"})
+
+    # Recettes
+    shaped("sanctuary_bricks", ["BBB", "BLB", "BBB"], {"B": "minecraft:stone_bricks", "L": rid("lumen_shard")},
+           rid("sanctuary_bricks"), 8, "building")
+    cooking("cracked_sanctuary_bricks", "smelting", rid("sanctuary_bricks"), rid("cracked_sanctuary_bricks"), 0.1, 200)
+    shaped(stairs, ["B  ", "BB ", "BBB"], {"B": rid("sanctuary_bricks")}, rid(stairs), 4, "building")
+    shaped(slab, ["BBB"], {"B": rid("sanctuary_bricks")}, rid(slab), 6, "building")
+    shaped(wall, ["BBB", "BBB"], {"B": rid("sanctuary_bricks")}, rid(wall), 6, "misc")
+    stonecutting(stairs + "_from_stonecutting", rid("sanctuary_bricks"), rid(stairs))
+    stonecutting(slab + "_from_stonecutting", rid("sanctuary_bricks"), rid(slab), 2)
+    stonecutting(wall + "_from_stonecutting", rid("sanctuary_bricks"), rid(wall))
+    shapeless("sanctuary_compass", ["minecraft:compass"] + [rid(f"essence_{v}") for v in VARIANTS],
+              rid("sanctuary_compass"), category="equipment")
+    shaped("eternal_lantern", ["LSL", "SHS", "LSL"],
+           {"L": rid("lumen_ingot"), "S": rid("lumen_shard"), "H": rid("lantern_heart")}, rid("eternal_lantern"), category="equipment")
+    w(d(MOD, "recipe", "watcher_staff.json"), {
+        "type": "minecraft:smithing_transform", "template": ing(rid("shadow_fragment")),
+        "base": ing(rid("wisp_staff")), "addition": ing(rid("lantern_heart")),
+        "result": {"id": rid("watcher_staff"), "count": 1}})
+
+    # Butin
+    essences = [entry(rid(f"essence_{v}"), 1, 1, 2) for v in VARIANTS]
+    w(d(MOD, "loot_table", "entities", "hollow_warden.json"), {
+        "type": "minecraft:entity",
+        "pools": [item_pool([entry(rid("lantern_heart"), 1)], 1),
+                  item_pool([entry(rid("shadow_fragment"), 1, 2, 4)], 1),
+                  item_pool(essences, 2)],
+        "random_sequence": rid("entities/hollow_warden")})
+    w(d(MOD, "loot_table", "chests", "sanctuary_surface.json"), {
+        "type": "minecraft:chest",
+        "pools": [item_pool([
+            entry(rid("lumen_shard"), 20, 2, 6), entry(rid("lumen_ingot"), 8, 1, 2), entry("minecraft:glass_bottle", 12, 1, 3),
+            entry(rid("wisp_dust"), 12, 1, 3), entry(rid("empty_jar"), 10, 1, 2), entry(rid("reinforced_jar"), 3),
+            entry("minecraft:candle", 8, 1, 4), entry("minecraft:bread", 8, 1, 3)] + [entry(rid(f"essence_{v}"), 3) for v in VARIANTS],
+            {"type": "minecraft:uniform", "min": 3, "max": 6})],
+        "random_sequence": rid("chests/sanctuary_surface")})
+    w(d(MOD, "loot_table", "chests", "sanctuary_crypt.json"), {
+        "type": "minecraft:chest",
+        "pools": [item_pool([
+            entry(rid("lumen_ingot"), 15, 2, 5), entry(rid("shadow_fragment"), 12, 1, 3), entry(rid("reinforced_jar"), 8),
+            entry("minecraft:diamond", 5, 1, 2), entry(rid("sanctuary_compass"), 3), entry("minecraft:golden_apple", 4)]
+            + [entry(rid(f"essence_{v}"), 6, 1, 3) for v in VARIANTS] + [entry(rid(f"charm_{v}"), 1) for v in VARIANTS],
+            {"type": "minecraft:uniform", "min": 4, "max": 7})],
+        "random_sequence": rid("chests/sanctuary_crypt")})
+
+    # Génération du sanctuaire
+    tag(MOD, "worldgen/biome", "has_sanctuary", ["minecraft:forest", "minecraft:flower_forest", "minecraft:birch_forest",
+                                                 "minecraft:old_growth_birch_forest", "minecraft:dark_forest",
+                                                 "minecraft:plains", "minecraft:meadow"])
+    w(d(MOD, "worldgen", "structure", "sanctuary.json"), {
+        "type": "minecraft:jigsaw",
+        "biomes": f"#{MOD}:has_sanctuary",
+        "step": "surface_structures",
+        "spawn_overrides": {},
+        "terrain_adaptation": "beard_thin",
+        "start_pool": rid("sanctuary/start"),
+        "size": 1,
+        "start_height": {"absolute": -6},
+        "project_start_to_heightmap": "WORLD_SURFACE_WG",
+        "max_distance_from_center": 80,
+        "use_expansion_hack": False,
+    })
+    w(d(MOD, "worldgen", "template_pool", "sanctuary", "start.json"), {
+        "fallback": "minecraft:empty",
+        "elements": [{"weight": 1, "element": {"element_type": "minecraft:single_pool_element",
+                                               "location": rid("sanctuary/main"),
+                                               "processors": rid("sanctuary_decay"),
+                                               "projection": "rigid"}}]})
+    rules = []
+    for out_block, prob in (("wisplight:cracked_sanctuary_bricks", 0.25), ("minecraft:mossy_stone_bricks", 0.12),
+                            ("minecraft:air", 0.04)):
+        rules.append({"input_predicate": {"predicate_type": "minecraft:random_block_match",
+                                          "block": rid("sanctuary_bricks"), "probability": prob},
+                      "location_predicate": {"predicate_type": "minecraft:always_true"},
+                      "output_state": {"Name": out_block}})
+    w(d(MOD, "worldgen", "processor_list", "sanctuary_decay.json"),
+      {"processors": [{"processor_type": "minecraft:rule", "rules": rules}]})
+    w(d(MOD, "worldgen", "structure_set", "sanctuary.json"), {
+        "structures": [{"structure": rid("sanctuary"), "weight": 1}],
+        "placement": {"type": "minecraft:random_spread", "spacing": 40, "separation": 14, "salt": 714263511}})
+    tag(MOD, "worldgen/structure", "sanctuaries", [rid("sanctuary")])
+
+    # Tags de blocs
+    bricks_all = [rid("sanctuary_bricks"), rid("cracked_sanctuary_bricks"), rid(stairs), rid(slab), rid(wall)] \
+        + [rid(f"runestone_{v}") for v in VARIANTS]
+    return bricks_all, stairs, slab, wall
+
+
 # ---------------------------------------------------------------- tout
 def main():
     for sub in ("blockstates", "models", "lang", "sounds.json"):
@@ -650,7 +943,10 @@ def main():
     tag(MOD, "block", "lumen_ores", ores)
     tag(MOD, "item", "lumen_ores", ores)
     tag("minecraft", "block", "mineable/pickaxe", ores + [rid("lumen_block"), rid("infusion_altar"), rid("calling_lantern")]
-        + [rid(f"lumen_lantern_{v}") for v in VARIANTS])
+        + [rid(f"lumen_lantern_{v}") for v in VARIANTS]
+        + [rid(x) for x in ("sanctuary_bricks", "cracked_sanctuary_bricks", "sanctuary_brick_stairs",
+                            "sanctuary_brick_slab", "sanctuary_brick_wall")]
+        + [rid(f"runestone_{v}") for v in VARIANTS])
     tag("minecraft", "block", "needs_iron_tool", ores)
     tag("minecraft", "block", "needs_stone_tool", [rid("lumen_block")])
     tag("minecraft", "item", "swords", [rid("lumen_sword")])
@@ -669,6 +965,13 @@ def main():
 
     phase3()
     phase4()
+    bricks_all, stairs, slab, wall = phase5()
+    tag("minecraft", "block", "stairs", [rid(stairs)])
+    tag("minecraft", "item", "stairs", [rid(stairs)])
+    tag("minecraft", "block", "slabs", [rid(slab)])
+    tag("minecraft", "item", "slabs", [rid(slab)])
+    tag("minecraft", "block", "walls", [rid(wall)])
+    tag("minecraft", "item", "walls", [rid(wall)])
     worldgen()
     sounds()
     lang()

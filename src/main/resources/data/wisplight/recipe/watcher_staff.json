@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": {
+    "item": "wisplight:shadow_fragment"
+  },
+  "base": {
+    "item": "wisplight:wisp_staff"
+  },
+  "addition": {
+    "item": "wisplight:lantern_heart"
+  },
+  "result": {
+    "id": "wisplight:watcher_staff",
+    "count": 1
+  }
+}

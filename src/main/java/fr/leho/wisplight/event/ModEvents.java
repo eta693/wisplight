@@ -2,6 +2,7 @@ package fr.leho.wisplight.event;
 
 import fr.leho.wisplight.Wisplight;
 import fr.leho.wisplight.entity.CreepingShadeEntity;
+import fr.leho.wisplight.entity.HollowWardenEntity;
 import fr.leho.wisplight.entity.WispEntity;
 import fr.leho.wisplight.registry.ModEntities;
 import net.minecraft.world.entity.SpawnPlacementTypes;
@@ -20,6 +21,7 @@ public final class ModEvents {
     public static void onAttributes(EntityAttributeCreationEvent event) {
         event.put(ModEntities.WISP.get(), WispEntity.createAttributes().build());
         event.put(ModEntities.CREEPING_SHADE.get(), CreepingShadeEntity.createAttributes().build());
+        event.put(ModEntities.HOLLOW_WARDEN.get(), HollowWardenEntity.createAttributes().build());
     }
 
     @SubscribeEvent

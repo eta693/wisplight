@@ -182,6 +182,94 @@ def shade_steal():
     return normalize(buf, 0.6)
 
 
+def rune_charge():
+    buf = np.zeros(int(SR * 1.2))
+    for i, fr in enumerate([784, 1175, 1568]):
+        place(buf, bell(fr, 1.0, decay=0.5) * (1 - 0.2 * i), 0.06 * i)
+    return normalize(buf, 0.65)
+
+
+def ritual():
+    x = t(3.0)
+    drone = (np.sin(2 * np.pi * 55 * x) + 0.5 * np.sin(2 * np.pi * 82.5 * x)) * np.clip(x / 1.0, 0, 1) * np.clip((3 - x) / 0.8, 0, 1)
+    buf = drone * 0.5
+    for i, fr in enumerate([523, 659, 784, 1047]):
+        place(buf, bell(fr, 1.6, decay=0.9) * 0.4, 0.5 + 0.45 * i)
+    return normalize(buf, 0.7)
+
+
+def compass():
+    buf = np.zeros(int(SR * 0.8))
+    for i in range(3):
+        place(buf, bell(3000, 0.05, decay=0.01, partials=((1, 1.0),)) * 0.6, 0.08 * i)
+    place(buf, bell(1760, 0.6, decay=0.3), 0.3)
+    return normalize(buf, 0.6)
+
+
+def metal_hit(freq, dur, decay):
+    return bell(freq, dur, decay=decay, partials=((1, 1.0), (2.41, 0.6), (3.93, 0.4), (5.67, 0.3), (7.12, 0.2)))
+
+
+def warden_ambient(seed):
+    r = np.random.default_rng(seed)
+    x = t(2.0)
+    drone = np.sin(2 * np.pi * (48 + 3 * np.sin(2 * np.pi * 0.5 * x)) * x) * 0.6
+    creak = lowpass(r.standard_normal(len(x)), 0.02) * np.sin(np.pi * x / 2.0) * 2.0
+    buf = (drone + creak) * np.sin(np.pi * np.clip(x / 2.0, 0, 1))
+    place(buf, metal_hit(330 + 40 * seed, 1.2, 0.5) * 0.4, 0.6)
+    return normalize(buf, 0.6)
+
+
+def warden_hurt():
+    buf = metal_hit(260, 0.8, 0.25)
+    x = t(0.8)
+    buf = buf + lowpass(rng.standard_normal(len(x)), 0.3) * env(len(x), 0.001, 0.05) * 0.5
+    return normalize(buf, 0.8)
+
+
+def warden_death():
+    x = t(3.0)
+    tone = np.sin(2 * np.pi * np.cumsum(np.linspace(220, 40, len(x))) / SR) * np.exp(-x / 1.4)
+    buf = tone * 0.7
+    for i in range(6):
+        place(buf, metal_hit(400 + 90 * i, 0.6, 0.15) * 0.3, 1.0 + 0.18 * i)
+    for i, fr in enumerate([1047, 1319, 1568, 2093]):
+        place(buf, bell(fr, 1.0, decay=0.6) * 0.25, 2.0 + 0.05 * i)
+    return normalize(buf, 0.8)
+
+
+def warden_phase():
+    buf = metal_hit(98, 3.0, 1.2) + metal_hit(147, 3.0, 1.0) * 0.6
+    return normalize(buf, 0.85)
+
+
+def warden_slam():
+    x = t(1.0)
+    thud = np.sin(2 * np.pi * np.cumsum(np.linspace(90, 35, len(x))) / SR) * env(len(x), 0.002, 0.25)
+    noise = lowpass(rng.standard_normal(len(x)), 0.15) * env(len(x), 0.001, 0.12)
+    buf = thud + noise * 0.6
+    for i in range(5):
+        place(buf, metal_hit(900 + 150 * i, 0.2, 0.04) * 0.2, 0.1 + 0.06 * i)
+    return normalize(buf, 0.85)
+
+
+def warden_charge():
+    x = t(1.5)
+    f = 200 + 1600 * (x / 1.5) ** 2
+    whine = np.sin(2 * np.pi * np.cumsum(f) / SR) * np.clip(x / 1.5, 0, 1)
+    shimmer = rng.standard_normal(len(x)) * 0.1 * np.clip(x / 1.5, 0, 1)
+    return normalize(whine * 0.6 + shimmer, 0.7)
+
+
+def warden_burst():
+    x = t(1.8)
+    boom = lowpass(rng.standard_normal(len(x)), 0.06) * np.exp(-x / 0.35) * 2.5
+    buf = boom
+    for i, fr in enumerate([1047, 1568, 2093, 3136]):
+        place(buf, bell(fr, 1.4, decay=0.7) * 0.5, 0.02 * i)
+    return normalize(buf, 0.9)
+
+
 def write_ogg(name, sig):
     path = os.path.join(OUT, name + ".ogg")
     os.makedirs(os.path.dirname(path), exist_ok=True)
@@ -217,6 +305,17 @@ if __name__ == "__main__":
         "shade/hurt": shade_hurt(),
         "shade/death": shade_death(),
         "shade/steal": shade_steal(),
+        "sanctuary/rune_charge": rune_charge(),
+        "sanctuary/ritual": ritual(),
+        "sanctuary/compass": compass(),
+        "warden/ambient1": warden_ambient(1),
+        "warden/ambient2": warden_ambient(2),
+        "warden/hurt": warden_hurt(),
+        "warden/death": warden_death(),
+        "warden/phase": warden_phase(),
+        "warden/slam": warden_slam(),
+        "warden/charge": warden_charge(),
+        "warden/burst": warden_burst(),
     }
     for n, s in sounds.items():
         write_ogg(n, s)

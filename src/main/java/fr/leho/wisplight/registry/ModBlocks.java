@@ -4,6 +4,8 @@ import fr.leho.wisplight.Wisplight;
 import fr.leho.wisplight.block.CallingLanternBlock;
 import fr.leho.wisplight.block.InfusionAltarBlock;
 import fr.leho.wisplight.block.LingeringGlowBlock;
+import fr.leho.wisplight.block.RunestoneBlock;
+import fr.leho.wisplight.block.SanctuaryAltarBlock;
 import fr.leho.wisplight.block.TraceLightBlock;
 import fr.leho.wisplight.block.WispJarBlock;
 import fr.leho.wisplight.entity.WispVariant;
@@ -15,6 +17,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DropExperienceBlock;
 import net.minecraft.world.level.block.LanternBlock;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
@@ -93,6 +98,33 @@ public final class ModBlocks {
                             () -> new LanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LANTERN).noOcclusion())));
                 }
             });
+
+    // --- Sanctuaire oublié ---
+    public static final DeferredBlock<Block> SANCTUARY_BRICKS = BLOCKS.register("sanctuary_bricks",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_BRICKS).mapColor(MapColor.COLOR_GRAY)));
+    public static final DeferredBlock<Block> CRACKED_SANCTUARY_BRICKS = BLOCKS.register("cracked_sanctuary_bricks",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.CRACKED_STONE_BRICKS).mapColor(MapColor.COLOR_GRAY)));
+    public static final DeferredBlock<StairBlock> SANCTUARY_BRICK_STAIRS = BLOCKS.register("sanctuary_brick_stairs",
+            () -> new StairBlock(SANCTUARY_BRICKS.get().defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_BRICK_STAIRS)));
+    public static final DeferredBlock<SlabBlock> SANCTUARY_BRICK_SLAB = BLOCKS.register("sanctuary_brick_slab",
+            () -> new SlabBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_BRICK_SLAB)));
+    public static final DeferredBlock<WallBlock> SANCTUARY_BRICK_WALL = BLOCKS.register("sanctuary_brick_wall",
+            () -> new WallBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.STONE_BRICK_WALL)));
+
+    public static final Map<WispVariant, DeferredBlock<RunestoneBlock>> RUNESTONES =
+            Util.make(new EnumMap<>(WispVariant.class), map -> {
+                for (WispVariant variant : WispVariant.values()) {
+                    map.put(variant, BLOCKS.register("runestone_" + variant.id(),
+                            () -> new RunestoneBlock(variant, BlockBehaviour.Properties.ofFullCopy(Blocks.POLISHED_DEEPSLATE)
+                                    .lightLevel(RunestoneBlock::lightLevel))));
+                }
+            });
+
+    public static final DeferredBlock<SanctuaryAltarBlock> SANCTUARY_ALTAR = BLOCKS.register("sanctuary_altar",
+            () -> new SanctuaryAltarBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BEDROCK)
+                    .mapColor(MapColor.COLOR_GRAY)
+                    .sound(SoundType.DEEPSLATE_BRICKS)
+                    .lightLevel(state -> 8)));
 
     private ModBlocks() {}
 }

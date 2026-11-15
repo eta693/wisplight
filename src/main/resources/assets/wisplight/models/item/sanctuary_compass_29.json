@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "wisplight:item/sanctuary_compass_29"
+  }
+}

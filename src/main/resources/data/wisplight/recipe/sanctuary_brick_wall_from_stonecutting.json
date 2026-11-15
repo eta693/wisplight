@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "wisplight:sanctuary_bricks"
+  },
+  "result": {
+    "id": "wisplight:sanctuary_brick_wall",
+    "count": 1
+  }
+}

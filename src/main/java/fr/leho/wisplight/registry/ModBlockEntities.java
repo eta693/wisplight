@@ -3,6 +3,7 @@ package fr.leho.wisplight.registry;
 import fr.leho.wisplight.Wisplight;
 import fr.leho.wisplight.blockentity.CallingLanternBlockEntity;
 import fr.leho.wisplight.blockentity.InfusionAltarBlockEntity;
+import fr.leho.wisplight.blockentity.SanctuaryAltarBlockEntity;
 import fr.leho.wisplight.blockentity.WispJarBlockEntity;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.block.Block;
@@ -28,6 +29,11 @@ public final class ModBlockEntities {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CallingLanternBlockEntity>> CALLING_LANTERN =
             BLOCK_ENTITIES.register("calling_lantern", () -> BlockEntityType.Builder.of(CallingLanternBlockEntity::new,
                     ModBlocks.CALLING_LANTERN.get()).build(null));
+
+    @SuppressWarnings("DataFlowIssue")
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SanctuaryAltarBlockEntity>> SANCTUARY_ALTAR =
+            BLOCK_ENTITIES.register("sanctuary_altar", () -> BlockEntityType.Builder.of(SanctuaryAltarBlockEntity::new,
+                    ModBlocks.SANCTUARY_ALTAR.get()).build(null));
 
     private ModBlockEntities() {}
 }

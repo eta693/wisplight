@@ -91,5 +91,66 @@
     "sounds": [
       "wisplight:shade/steal"
     ]
+  },
+  "block.runestone.charge": {
+    "subtitle": "subtitles.wisplight.block.runestone.charge",
+    "sounds": [
+      "wisplight:sanctuary/rune_charge"
+    ]
+  },
+  "block.sanctuary_altar.ritual": {
+    "subtitle": "subtitles.wisplight.block.sanctuary_altar.ritual",
+    "sounds": [
+      "wisplight:sanctuary/ritual"
+    ]
+  },
+  "item.sanctuary_compass.locate": {
+    "subtitle": "subtitles.wisplight.item.sanctuary_compass.locate",
+    "sounds": [
+      "wisplight:sanctuary/compass"
+    ]
+  },
+  "entity.hollow_warden.ambient": {
+    "subtitle": "subtitles.wisplight.entity.hollow_warden.ambient",
+    "sounds": [
+      "wisplight:warden/ambient1",
+      "wisplight:warden/ambient2"
+    ]
+  },
+  "entity.hollow_warden.hurt": {
+    "subtitle": "subtitles.wisplight.entity.hollow_warden.hurt",
+    "sounds": [
+      "wisplight:warden/hurt"
+    ]
+  },
+  "entity.hollow_warden.death": {
+    "subtitle": "subtitles.wisplight.entity.hollow_warden.death",
+    "sounds": [
+      "wisplight:warden/death"
+    ]
+  },
+  "entity.hollow_warden.phase": {
+    "subtitle": "subtitles.wisplight.entity.hollow_warden.phase",
+    "sounds": [
+      "wisplight:warden/phase"
+    ]
+  },
+  "entity.hollow_warden.slam": {
+    "subtitle": "subtitles.wisplight.entity.hollow_warden.slam",
+    "sounds": [
+      "wisplight:warden/slam"
+    ]
+  },
+  "entity.hollow_warden.charge": {
+    "subtitle": "subtitles.wisplight.entity.hollow_warden.charge",
+    "sounds": [
+      "wisplight:warden/charge"
+    ]
+  },
+  "entity.hollow_warden.burst": {
+    "subtitle": "subtitles.wisplight.entity.hollow_warden.burst",
+    "sounds": [
+      "wisplight:warden/burst"
+    ]
   }
 }

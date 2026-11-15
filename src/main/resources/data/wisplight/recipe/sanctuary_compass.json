@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "minecraft:compass"
+    },
+    {
+      "item": "wisplight:essence_azur"
+    },
+    {
+      "item": "wisplight:essence_emeraude"
+    },
+    {
+      "item": "wisplight:essence_braise"
+    },
+    {
+      "item": "wisplight:essence_givre"
+    }
+  ],
+  "result": {
+    "id": "wisplight:sanctuary_compass",
+    "count": 1
+  }
+}

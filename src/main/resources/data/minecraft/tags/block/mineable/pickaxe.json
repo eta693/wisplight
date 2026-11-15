@@ -9,6 +9,15 @@
     "wisplight:lumen_lantern_azur",
     "wisplight:lumen_lantern_emeraude",
     "wisplight:lumen_lantern_braise",
-    "wisplight:lumen_lantern_givre"
+    "wisplight:lumen_lantern_givre",
+    "wisplight:sanctuary_bricks",
+    "wisplight:cracked_sanctuary_bricks",
+    "wisplight:sanctuary_brick_stairs",
+    "wisplight:sanctuary_brick_slab",
+    "wisplight:sanctuary_brick_wall",
+    "wisplight:runestone_azur",
+    "wisplight:runestone_emeraude",
+    "wisplight:runestone_braise",
+    "wisplight:runestone_givre"
   ]
 }

@@ -3,6 +3,9 @@ package fr.leho.wisplight.registry;
 import fr.leho.wisplight.Wisplight;
 import fr.leho.wisplight.entity.WispVariant;
 import fr.leho.wisplight.item.CharmItem;
+import fr.leho.wisplight.item.EternalLanternItem;
+import fr.leho.wisplight.item.SanctuaryCompassItem;
+import fr.leho.wisplight.item.WatcherStaffItem;
 import fr.leho.wisplight.item.WispStaffItem;
 import java.util.EnumMap;
 import java.util.Map;
@@ -112,6 +115,30 @@ public final class ModItems {
     public static final DeferredItem<ArmorItem> WATCHER_BOOTS = watcher("watcher_boots", ArmorItem.Type.BOOTS);
     public static final DeferredItem<DeferredSpawnEggItem> CREEPING_SHADE_SPAWN_EGG = ITEMS.register("creeping_shade_spawn_egg",
             () -> new DeferredSpawnEggItem(ModEntities.CREEPING_SHADE, 0x1A1424, 0xF4F0FF, new Item.Properties()));
+
+    // --- Sanctuaire & Veilleur ---
+    public static final DeferredItem<BlockItem> SANCTUARY_BRICKS = block("sanctuary_bricks", ModBlocks.SANCTUARY_BRICKS);
+    public static final DeferredItem<BlockItem> CRACKED_SANCTUARY_BRICKS = block("cracked_sanctuary_bricks", ModBlocks.CRACKED_SANCTUARY_BRICKS);
+    public static final DeferredItem<BlockItem> SANCTUARY_BRICK_STAIRS = block("sanctuary_brick_stairs", ModBlocks.SANCTUARY_BRICK_STAIRS);
+    public static final DeferredItem<BlockItem> SANCTUARY_BRICK_SLAB = block("sanctuary_brick_slab", ModBlocks.SANCTUARY_BRICK_SLAB);
+    public static final DeferredItem<BlockItem> SANCTUARY_BRICK_WALL = block("sanctuary_brick_wall", ModBlocks.SANCTUARY_BRICK_WALL);
+    public static final Map<WispVariant, DeferredItem<BlockItem>> RUNESTONES =
+            Util.make(new EnumMap<>(WispVariant.class), map -> {
+                for (WispVariant variant : WispVariant.values()) {
+                    map.put(variant, block("runestone_" + variant.id(), ModBlocks.RUNESTONES.get(variant)));
+                }
+            });
+    public static final DeferredItem<BlockItem> SANCTUARY_ALTAR = block("sanctuary_altar", ModBlocks.SANCTUARY_ALTAR);
+    public static final DeferredItem<SanctuaryCompassItem> SANCTUARY_COMPASS = ITEMS.register("sanctuary_compass",
+            () -> new SanctuaryCompassItem(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));
+    public static final DeferredItem<Item> LANTERN_HEART = ITEMS.register("lantern_heart",
+            () -> new Item(new Item.Properties().rarity(Rarity.EPIC).fireResistant()));
+    public static final DeferredItem<EternalLanternItem> ETERNAL_LANTERN = ITEMS.register("eternal_lantern",
+            () -> new EternalLanternItem(new Item.Properties().stacksTo(1).rarity(Rarity.EPIC).fireResistant()));
+    public static final DeferredItem<WatcherStaffItem> WATCHER_STAFF = ITEMS.register("watcher_staff",
+            () -> new WatcherStaffItem(new Item.Properties().durability(600).rarity(Rarity.EPIC).fireResistant()));
+    public static final DeferredItem<DeferredSpawnEggItem> HOLLOW_WARDEN_SPAWN_EGG = ITEMS.register("hollow_warden_spawn_egg",
+            () -> new DeferredSpawnEggItem(ModEntities.HOLLOW_WARDEN, 0x2B2D33, 0xFFE08A, new Item.Properties()));
 
     // --- Divers ---
     public static final DeferredItem<DeferredSpawnEggItem> WISP_SPAWN_EGG = ITEMS.register("wisp_spawn_egg",

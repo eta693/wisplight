@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "wisplight:block/sanctuary_altar_top",
+    "side": "wisplight:block/sanctuary_altar_side",
+    "bottom": "wisplight:block/sanctuary_altar_bottom"
+  }
+}

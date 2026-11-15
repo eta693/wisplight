@@ -44,7 +44,11 @@ public class WispJarBlockEntity extends BlockEntity {
         if (jar.essences >= MAX_ESSENCES || level.getGameTime() % CHECK_INTERVAL != 0) {
             return;
         }
-        jar.addProgress(jar.currentRate() * CHECK_INTERVAL);
+        int amount = jar.currentRate() * CHECK_INTERVAL;
+        if (level.getServer() != null && fr.leho.wisplight.WisplightWorldData.get(level.getServer()).isRekindled()) {
+            amount = amount * 3 / 2; // la flamme ravivée : +50 %
+        }
+        jar.addProgress(amount);
     }
 
     /** Vitesse de production actuelle (unités par tick). */

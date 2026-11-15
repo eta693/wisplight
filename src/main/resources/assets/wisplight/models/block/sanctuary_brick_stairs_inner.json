@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "wisplight:block/sanctuary_bricks",
+    "top": "wisplight:block/sanctuary_bricks",
+    "side": "wisplight:block/sanctuary_bricks"
+  }
+}

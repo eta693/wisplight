@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "wisplight:block/sanctuary_brick_slab"
+    },
+    "type=top": {
+      "model": "wisplight:block/sanctuary_brick_slab_top"
+    },
+    "type=double": {
+      "model": "wisplight:block/sanctuary_bricks"
+    }
+  }
+}

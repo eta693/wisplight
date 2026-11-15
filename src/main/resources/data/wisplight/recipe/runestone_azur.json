@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    " B ",
+    "BEB",
+    " B "
+  ],
+  "key": {
+    "B": {
+      "item": "wisplight:sanctuary_bricks"
+    },
+    "E": {
+      "item": "wisplight:essence_azur"
+    }
+  },
+  "result": {
+    "id": "wisplight:runestone_azur",
+    "count": 4
+  }
+}

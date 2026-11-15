@@ -28,7 +28,10 @@ public class WispStaffItem extends Item {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         if (!level.isClientSide) {
-            shoot(level, player, stack);
+            for (int i = 0; i < shots(); i++) {
+                WispOrbEntity orb = shoot(level, player, stack, (i - (shots() - 1) / 2.0F) * 8.0F);
+                orb.setDamageBonus(damageBonus());
+            }
             stack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
             level.playSound(null, player.getX(), player.getY(), player.getZ(), ModSounds.STAFF_SHOOT.get(),
                     SoundSource.PLAYERS, 0.7F, 0.9F + level.random.nextFloat() * 0.2F);
@@ -37,9 +40,23 @@ public class WispStaffItem extends Item {
         return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
     }
 
+    /** Nombre d'orbes tirés à chaque utilisation. */
+    protected int shots() {
+        return 1;
+    }
+
+    /** Dégâts ajoutés aux orbes. */
+    protected float damageBonus() {
+        return 0.0F;
+    }
+
     public static WispOrbEntity shoot(Level level, LivingEntity shooter, ItemStack staff) {
+        return shoot(level, shooter, staff, 0.0F);
+    }
+
+    public static WispOrbEntity shoot(Level level, LivingEntity shooter, ItemStack staff, float yawOffset) {
         WispOrbEntity orb = new WispOrbEntity(level, shooter, ModComponents.infusion(staff));
-        orb.shootFromRotation(shooter, shooter.getXRot(), shooter.getYRot(), 0.0F, 1.6F, 0.5F);
+        orb.shootFromRotation(shooter, shooter.getXRot(), shooter.getYRot() + yawOffset, 0.0F, 1.6F, 0.5F);
         level.addFreshEntity(orb);
         return orb;
     }

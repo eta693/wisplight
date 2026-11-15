@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "BBB",
+    "BLB",
+    "BBB"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:stone_bricks"
+    },
+    "L": {
+      "item": "wisplight:lumen_shard"
+    }
+  },
+  "result": {
+    "id": "wisplight:sanctuary_bricks",
+    "count": 8
+  }
+}

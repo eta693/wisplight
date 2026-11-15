@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "charged=false,lit=false": {
+      "model": "wisplight:block/runestone_azur"
+    },
+    "charged=true,lit=false": {
+      "model": "wisplight:block/runestone_azur_charged"
+    },
+    "charged=false,lit=true": {
+      "model": "wisplight:block/runestone_azur_lit"
+    },
+    "charged=true,lit=true": {
+      "model": "wisplight:block/runestone_azur_lit"
+    }
+  }
+}

@@ -27,6 +27,17 @@ public final class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> SHADE_DEATH = register("entity.creeping_shade.death");
     public static final DeferredHolder<SoundEvent, SoundEvent> SHADE_STEAL = register("entity.creeping_shade.steal");
 
+    public static final DeferredHolder<SoundEvent, SoundEvent> RUNE_CHARGE = register("block.runestone.charge");
+    public static final DeferredHolder<SoundEvent, SoundEvent> RITUAL_START = register("block.sanctuary_altar.ritual");
+    public static final DeferredHolder<SoundEvent, SoundEvent> COMPASS_LOCATE = register("item.sanctuary_compass.locate");
+    public static final DeferredHolder<SoundEvent, SoundEvent> WARDEN_AMBIENT = register("entity.hollow_warden.ambient");
+    public static final DeferredHolder<SoundEvent, SoundEvent> WARDEN_HURT = register("entity.hollow_warden.hurt");
+    public static final DeferredHolder<SoundEvent, SoundEvent> WARDEN_DEATH = register("entity.hollow_warden.death");
+    public static final DeferredHolder<SoundEvent, SoundEvent> WARDEN_PHASE = register("entity.hollow_warden.phase");
+    public static final DeferredHolder<SoundEvent, SoundEvent> WARDEN_SLAM = register("entity.hollow_warden.slam");
+    public static final DeferredHolder<SoundEvent, SoundEvent> WARDEN_CHARGE = register("entity.hollow_warden.charge");
+    public static final DeferredHolder<SoundEvent, SoundEvent> WARDEN_BURST = register("entity.hollow_warden.burst");
+
     private static DeferredHolder<SoundEvent, SoundEvent> register(String name) {
         return SOUNDS.register(name, () -> SoundEvent.createVariableRangeEvent(Wisplight.id(name)));
     }
